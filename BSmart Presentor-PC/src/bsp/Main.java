@@ -1,4 +1,4 @@
-package main;
+package bsp;
 
 public class Main {
 
