@@ -39,6 +39,9 @@
     <SyntheticProperty name="menuBar" type="java.lang.String" value="mainMenu"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowStateChanged" listener="java.awt.event.WindowStateListener" parameters="java.awt.event.WindowEvent" handler="formWindowStateChanged"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
@@ -74,9 +77,9 @@
                   <Component id="mTF_Path" min="-2" pref="178" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="mB_Open" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="13" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
-              <Component id="mSP_Up" alignment="0" pref="309" max="32767" attributes="0"/>
+              <Component id="mSP_Up" alignment="0" pref="322" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -106,9 +109,6 @@
         </Component>
         <Component class="javax.swing.JTextField" name="mTF_Path">
           <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
@@ -116,6 +116,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Open.."/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mB_OpenActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSeparator" name="mSP_Up">
         </Component>

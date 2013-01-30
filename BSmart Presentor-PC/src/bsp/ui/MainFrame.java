@@ -7,13 +7,15 @@
 package bsp.ui;
 
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import bsp.ui.animation.WindowAnimation;
 
 /**
- *
- * @author  __USER__
+ * 
+ * @author __USER__
  */
 public class MainFrame extends javax.swing.JFrame {
 
@@ -23,7 +25,7 @@ public class MainFrame extends javax.swing.JFrame {
 		myInitComponents();
 	}
 
-	//GEN-BEGIN:initComponents
+	// GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -41,14 +43,23 @@ public class MainFrame extends javax.swing.JFrame {
 		setTitle("BSmart Presentor - PC");
 		setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 		setResizable(false);
+		addWindowStateListener(new java.awt.event.WindowStateListener() {
+			public void windowStateChanged(java.awt.event.WindowEvent evt) {
+				formWindowStateChanged(evt);
+			}
+		});
 
 		mL_File.setFont(new java.awt.Font("Segoe UI", 0, 14));
 		mL_File.setText("File: ");
 
-		mTF_Path.setBackground(new java.awt.Color(255, 255, 255));
 		mTF_Path.setEditable(false);
 
 		mB_Open.setText("Open..");
+		mB_Open.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				mB_OpenActionPerformed(evt);
+			}
+		});
 
 		javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(
 				mainPanel);
@@ -72,9 +83,11 @@ public class MainFrame extends javax.swing.JFrame {
 										.addPreferredGap(
 												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(mB_Open)
-										.addContainerGap(13, Short.MAX_VALUE))
+										.addContainerGap(
+												javax.swing.GroupLayout.DEFAULT_SIZE,
+												Short.MAX_VALUE))
 						.addComponent(mSP_Up,
-								javax.swing.GroupLayout.DEFAULT_SIZE, 309,
+								javax.swing.GroupLayout.DEFAULT_SIZE, 322,
 								Short.MAX_VALUE));
 		mainPanelLayout
 				.setVerticalGroup(mainPanelLayout
@@ -132,7 +145,21 @@ public class MainFrame extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>
-	//GEN-END:initComponents
+		// GEN-END:initComponents
+
+	private void formWindowStateChanged(java.awt.event.WindowEvent evt) {
+		// TODO add your handling code here:
+		if (this.getState() == Frame.NORMAL) {
+			WindowAnimation.windowNormal(this, 0, previousScreen.getWidth(),
+					previousScreen.getHeight());
+		}
+	}
+
+	private void mB_OpenActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		previousScreen = this.getPreferredSize();
+		WindowAnimation.windowMinimize(this, 0);
+	}
 
 	// Other initializations that not in initComponets()
 	private void myInitComponents() {
@@ -147,7 +174,8 @@ public class MainFrame extends javax.swing.JFrame {
 	}
 
 	/**
-	 * @param args the command line arguments
+	 * @param args
+	 *            the command line arguments
 	 */
 	public static void main(String args[]) {
 		java.awt.EventQueue.invokeLater(new Runnable() {
@@ -157,7 +185,7 @@ public class MainFrame extends javax.swing.JFrame {
 		});
 	}
 
-	//GEN-BEGIN:variables
+	// GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton mB_Open;
 	private javax.swing.JLabel mL_File;
@@ -170,7 +198,7 @@ public class MainFrame extends javax.swing.JFrame {
 	private javax.swing.JPanel mainPanel;
 	// End of variables declaration//GEN-END:variables
 
-	private Dimension screen, window;
+	private Dimension screen, window, previousScreen;
 	private Rectangle winSize;
 
 }
