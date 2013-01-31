@@ -11,6 +11,10 @@ import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
 import bsp.ui.animation.WindowAnimation;
 
 /**
@@ -25,10 +29,11 @@ public class MainFrame extends javax.swing.JFrame {
 		myInitComponents();
 	}
 
-	// GEN-BEGIN:initComponents
+	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
+		fileChooser = new javax.swing.JFileChooser();
 		mainPanel = new javax.swing.JPanel();
 		mL_File = new javax.swing.JLabel();
 		mTF_Path = new javax.swing.JTextField();
@@ -38,6 +43,7 @@ public class MainFrame extends javax.swing.JFrame {
 		mMFile = new javax.swing.JMenu();
 		mMFile_Open = new javax.swing.JMenuItem();
 		mMAbout = new javax.swing.JMenu();
+		fileChooser.getAccessibleContext().setAccessibleParent(this);
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle("BSmart Presentor - PC");
@@ -145,23 +151,31 @@ public class MainFrame extends javax.swing.JFrame {
 
 		pack();
 	}// </editor-fold>
-		// GEN-END:initComponents
+	//GEN-END:initComponents
 
 	private void formWindowStateChanged(java.awt.event.WindowEvent evt) {
 		// TODO add your handling code here:
 		if (this.getState() == Frame.NORMAL) {
 			WindowAnimation.windowNormal(this, 0, previousScreen.getWidth(),
 					previousScreen.getHeight());
+		} else if (this.getState() == Frame.ICONIFIED) {
+			this.previousScreen = this.getPreferredSize();
 		}
 	}
 
 	private void mB_OpenActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
-		previousScreen = this.getPreferredSize();
-		WindowAnimation.windowMinimize(this, 0);
+		//previousScreen = this.getPreferredSize();
+		//WindowAnimation.windowMinimize(this, 0);
+		int reval = fileChooser.showOpenDialog(this);
+		if (reval == JFileChooser.APPROVE_OPTION) {
+			mTF_Path.setText(fileChooser.getSelectedFile().getPath());
+			System.out.println(mTF_Path.getText());
+		}
+
 	}
 
-	// Other initializations that not in initComponets()
+	// Other initialisations that not in initComponets()
 	private void myInitComponents() {
 		screen = Toolkit.getDefaultToolkit().getScreenSize();
 		window = this.getPreferredSize();
@@ -171,6 +185,16 @@ public class MainFrame extends javax.swing.JFrame {
 		this.setLocation((int) (screen.getWidth() - window.getWidth() - 10),
 				(int) (winSize.height - window.getHeight()));
 
+		initFChooser();
+	}
+
+	// Initialise the file chooser. Only the .ppt or .pdf files
+	// can be shown
+	private void initFChooser() {
+		FileNameExtensionFilter filter = new FileNameExtensionFilter(
+				"ppt or pdf", "ppt", "pdf");
+		fileChooser.setAcceptAllFileFilterUsed(false);
+		fileChooser.setFileFilter(filter);
 	}
 
 	/**
@@ -185,8 +209,9 @@ public class MainFrame extends javax.swing.JFrame {
 		});
 	}
 
-	// GEN-BEGIN:variables
+	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
+	private javax.swing.JFileChooser fileChooser;
 	private javax.swing.JButton mB_Open;
 	private javax.swing.JLabel mL_File;
 	private javax.swing.JMenu mMAbout;
