@@ -12,7 +12,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
-import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import bsp.ui.animation.WindowAnimation;
@@ -34,16 +33,134 @@ public class MainFrame extends javax.swing.JFrame {
 	private void initComponents() {
 
 		fileChooser = new javax.swing.JFileChooser();
-		mainPanel = new javax.swing.JPanel();
-		mL_File = new javax.swing.JLabel();
-		mTF_Path = new javax.swing.JTextField();
-		mB_Open = new javax.swing.JButton();
-		mSP_Up = new javax.swing.JSeparator();
+		devicePanel = new javax.swing.JPanel();
+		dL_device = new javax.swing.JLabel();
+		jScrollPane1 = new javax.swing.JScrollPane();
+		jTable1 = new javax.swing.JTable();
+		jSeparator1 = new javax.swing.JSeparator();
+		dB_Refresh = new javax.swing.JButton();
+		dB_Connect = new javax.swing.JButton();
+		mainPanel = new bsp.ui.MainPanel();
 		mainMenu = new javax.swing.JMenuBar();
 		mMFile = new javax.swing.JMenu();
 		mMFile_Open = new javax.swing.JMenuItem();
 		mMAbout = new javax.swing.JMenu();
 		fileChooser.getAccessibleContext().setAccessibleParent(this);
+
+		devicePanel.setPreferredSize(new java.awt.Dimension(317, 430));
+
+		dL_device.setFont(new java.awt.Font("Segoe UI", 0, 14));
+		dL_device.setText("Please choose a device to connect:");
+
+		jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14));
+		jTable1.setModel(new javax.swing.table.DefaultTableModel(
+				new Object[][] { { null }, { null }, { null }, { null },
+						{ null }, { null }, { null }, { null }, { null },
+						{ null }, { null }, { null }, { null }, { null },
+						{ null }, { null }, { null } },
+				new String[] { "Devices" }) {
+			boolean[] canEdit = new boolean[] { false };
+
+			public boolean isCellEditable(int rowIndex, int columnIndex) {
+				return canEdit[columnIndex];
+			}
+		});
+		jScrollPane1.setViewportView(jTable1);
+
+		dB_Refresh.setText("Refresh ");
+		dB_Refresh.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				dB_RefreshActionPerformed(evt);
+			}
+		});
+
+		dB_Connect.setText("Connect");
+
+		javax.swing.GroupLayout devicePanelLayout = new javax.swing.GroupLayout(
+				devicePanel);
+		devicePanel.setLayout(devicePanelLayout);
+		devicePanelLayout
+				.setHorizontalGroup(devicePanelLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								devicePanelLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												devicePanelLayout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.LEADING)
+														.addGroup(
+																devicePanelLayout
+																		.createSequentialGroup()
+																		.addComponent(
+																				jScrollPane1,
+																				javax.swing.GroupLayout.PREFERRED_SIZE,
+																				292,
+																				javax.swing.GroupLayout.PREFERRED_SIZE)
+																		.addContainerGap())
+														.addGroup(
+																devicePanelLayout
+																		.createSequentialGroup()
+																		.addComponent(
+																				dL_device)
+																		.addContainerGap(
+																				95,
+																				Short.MAX_VALUE))
+														.addGroup(
+																devicePanelLayout
+																		.createSequentialGroup()
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+																				69,
+																				Short.MAX_VALUE)
+																		.addComponent(
+																				dB_Refresh)
+																		.addPreferredGap(
+																				javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+																		.addComponent(
+																				dB_Connect)
+																		.addGap(77,
+																				77,
+																				77))))
+						.addComponent(jSeparator1,
+								javax.swing.GroupLayout.Alignment.TRAILING,
+								javax.swing.GroupLayout.DEFAULT_SIZE, 317,
+								Short.MAX_VALUE));
+		devicePanelLayout
+				.setVerticalGroup(devicePanelLayout
+						.createParallelGroup(
+								javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(
+								devicePanelLayout
+										.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(dL_device)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(
+												jScrollPane1,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												314,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addGap(18, 18, 18)
+										.addComponent(
+												jSeparator1,
+												javax.swing.GroupLayout.PREFERRED_SIZE,
+												10,
+												javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(
+												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+										.addGroup(
+												devicePanelLayout
+														.createParallelGroup(
+																javax.swing.GroupLayout.Alignment.BASELINE)
+														.addComponent(
+																dB_Refresh)
+														.addComponent(
+																dB_Connect))
+										.addContainerGap(16, Short.MAX_VALUE)));
 
 		setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		setTitle("BSmart Presentor - PC");
@@ -54,74 +171,6 @@ public class MainFrame extends javax.swing.JFrame {
 				formWindowStateChanged(evt);
 			}
 		});
-
-		mL_File.setFont(new java.awt.Font("Segoe UI", 0, 14));
-		mL_File.setText("File: ");
-
-		mTF_Path.setEditable(false);
-
-		mB_Open.setText("Open..");
-		mB_Open.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				mB_OpenActionPerformed(evt);
-			}
-		});
-
-		javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(
-				mainPanel);
-		mainPanel.setLayout(mainPanelLayout);
-		mainPanelLayout
-				.setHorizontalGroup(mainPanelLayout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								mainPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(mL_File)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(
-												mTF_Path,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												178,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addComponent(mB_Open)
-										.addContainerGap(
-												javax.swing.GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE))
-						.addComponent(mSP_Up,
-								javax.swing.GroupLayout.DEFAULT_SIZE, 322,
-								Short.MAX_VALUE));
-		mainPanelLayout
-				.setVerticalGroup(mainPanelLayout
-						.createParallelGroup(
-								javax.swing.GroupLayout.Alignment.LEADING)
-						.addGroup(
-								mainPanelLayout
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												mainPanelLayout
-														.createParallelGroup(
-																javax.swing.GroupLayout.Alignment.BASELINE)
-														.addComponent(mL_File)
-														.addComponent(
-																mTF_Path,
-																javax.swing.GroupLayout.PREFERRED_SIZE,
-																javax.swing.GroupLayout.DEFAULT_SIZE,
-																javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addComponent(mB_Open))
-										.addPreferredGap(
-												javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-										.addComponent(
-												mSP_Up,
-												javax.swing.GroupLayout.PREFERRED_SIZE,
-												10,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addContainerGap(355, Short.MAX_VALUE)));
 
 		mMFile.setText("File");
 
@@ -141,17 +190,24 @@ public class MainFrame extends javax.swing.JFrame {
 				getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
-				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 315,
+				Short.MAX_VALUE));
 		layout.setVerticalGroup(layout.createParallelGroup(
-				javax.swing.GroupLayout.Alignment.LEADING).addComponent(
-				mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE,
-				javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+				javax.swing.GroupLayout.Alignment.LEADING).addGap(0, 427,
+				Short.MAX_VALUE));
 
 		pack();
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void dB_RefreshActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		this.remove(devicePanel);
+		this.repaint();
+
+		add(mainPanel);
+		pack();
+	}
 
 	private void formWindowStateChanged(java.awt.event.WindowEvent evt) {
 		// TODO add your handling code here:
@@ -163,29 +219,24 @@ public class MainFrame extends javax.swing.JFrame {
 		}
 	}
 
-	private void mB_OpenActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-		//previousScreen = this.getPreferredSize();
-		//WindowAnimation.windowMinimize(this, 0);
-		int reval = fileChooser.showOpenDialog(this);
-		if (reval == JFileChooser.APPROVE_OPTION) {
-			mTF_Path.setText(fileChooser.getSelectedFile().getPath());
-			System.out.println(mTF_Path.getText());
-		}
-
-	}
-
 	// Other initialisations that not in initComponets()
 	private void myInitComponents() {
 		screen = Toolkit.getDefaultToolkit().getScreenSize();
-		window = this.getPreferredSize();
-		winSize = GraphicsEnvironment.getLocalGraphicsEnvironment()
+		frameSize = this.getPreferredSize();
+		windowSize = GraphicsEnvironment.getLocalGraphicsEnvironment()
 				.getMaximumWindowBounds();
 
-		this.setLocation((int) (screen.getWidth() - window.getWidth() - 10),
-				(int) (winSize.height - window.getHeight()));
+		this.setLocation((int) (screen.getWidth() - frameSize.getWidth() - 10),
+				(int) (windowSize.height - frameSize.getHeight()));
 
 		initFChooser();
+
+		mainPanel.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+		devicePanel.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+
+		add(devicePanel);
+
+		pack();
 	}
 
 	// Initialise the file chooser. Only the .ppt or .pdf files
@@ -211,19 +262,27 @@ public class MainFrame extends javax.swing.JFrame {
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
+	private javax.swing.JButton dB_Connect;
+	private javax.swing.JButton dB_Refresh;
+	private javax.swing.JLabel dL_device;
+	private javax.swing.JPanel devicePanel;
 	private javax.swing.JFileChooser fileChooser;
-	private javax.swing.JButton mB_Open;
-	private javax.swing.JLabel mL_File;
+	private javax.swing.JScrollPane jScrollPane1;
+	private javax.swing.JSeparator jSeparator1;
+	private javax.swing.JTable jTable1;
 	private javax.swing.JMenu mMAbout;
 	private javax.swing.JMenu mMFile;
 	private javax.swing.JMenuItem mMFile_Open;
-	private javax.swing.JSeparator mSP_Up;
-	private javax.swing.JTextField mTF_Path;
 	private javax.swing.JMenuBar mainMenu;
-	private javax.swing.JPanel mainPanel;
+	private bsp.ui.MainPanel mainPanel;
 	// End of variables declaration//GEN-END:variables
 
-	private Dimension screen, window, previousScreen;
-	private Rectangle winSize;
+	// Screen properties and state keepers. i.e. size etc.
+	private Dimension screen, frameSize, previousScreen;
+	private Rectangle windowSize;
+	//private javax.swing.JPanel preciousPanel;
 
+	// Fix size variables for components.
+	private final int PANEL_WIDTH = 317;
+	private final int PANEL_HEIGHT = 430;
 }
