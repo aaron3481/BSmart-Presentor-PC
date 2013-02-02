@@ -7,7 +7,7 @@ public class POITest {
 	public static void main(String[] args) throws Exception {
 		XMLSlideShow show = new XMLSlideShow(
 				new FileInputStream(
-						"C:/Users/aaron/Documents/UWaterloo/2013Winter/CS446/Porject/Presentation_1.pptx"));
+						"C:/Users/Aaron/Documents/UWaterloo/Winter2013/CS446/Presentation_1.pptx"));
 
 		XSLFSlide slides[] = show.getSlides();
 
@@ -17,7 +17,7 @@ public class POITest {
 
 		// tr.getText();
 		int index = 1;
-
+		System.out.println(slides[0].getShapes().length);
 		for (XSLFSlide slide : slides) {
 			System.out.println("Printing slide #" + index + "'s note:");
 			index++;
