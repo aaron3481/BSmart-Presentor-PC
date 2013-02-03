@@ -19,6 +19,11 @@ public class MainPanel extends javax.swing.JPanel {
 	public MainPanel() {
 		initComponents();
 		initFChooser();
+		//System.out.println(p_Body.getPreferredSize());
+		javax.swing.JButton test = new javax.swing.JButton("Test");
+		test.setBounds(0, 45, 315, 330);
+		this.add(test);
+		this.repaint();
 	}
 
 	/**
@@ -46,7 +51,6 @@ public class MainPanel extends javax.swing.JPanel {
 		ll_Path.setFont(new java.awt.Font("Segoe UI", 0, 14));
 		ll_Path.setText("File: ");
 
-		TF_Path.setBackground(new java.awt.Color(255, 255, 255));
 		TF_Path.setEditable(false);
 		TF_Path.setText("Aaron Cai");
 
@@ -63,6 +67,11 @@ public class MainPanel extends javax.swing.JPanel {
 		b_TimeFrame.setText("Time Frame");
 
 		b_Send.setText("Send");
+		b_Send.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				b_SendActionPerformed(evt);
+			}
+		});
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
@@ -146,6 +155,14 @@ public class MainPanel extends javax.swing.JPanel {
 								.addContainerGap()));
 	}// </editor-fold>
 	//GEN-END:initComponents
+
+	private void b_SendActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		javax.swing.JFrame parent = (javax.swing.JFrame) this.getRootPane()
+				.getParent();
+		parent.remove(this);
+		parent.repaint();
+	}
 
 	private void b_OpenActionPerformed(java.awt.event.ActionEvent evt) {
 		int reval = fileChooser.showOpenDialog(this);

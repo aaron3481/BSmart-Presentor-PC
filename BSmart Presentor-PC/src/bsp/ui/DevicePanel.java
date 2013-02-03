@@ -6,18 +6,25 @@
 
 package bsp.ui;
 
+import bsp.connection.Bluetooth;
+import java.util.Vector;
+
+import javax.bluetooth.RemoteDevice;
+import javax.swing.table.DefaultTableModel;
+
 /**
- *
- * @author  __USER__
+ * 
+ * @author __USER__
  */
 public class DevicePanel extends javax.swing.JPanel {
 
 	/** Creates new form DevicePanel */
 	public DevicePanel() {
 		initComponents();
+		myInitComponents();
 	}
 
-	//GEN-BEGIN:initComponents
+	// GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -35,22 +42,35 @@ public class DevicePanel extends javax.swing.JPanel {
 
 		t_Device.setFont(new java.awt.Font("Segoe UI", 0, 14));
 		t_Device.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { null }, { null }, { null }, { null },
-						{ null }, { null }, { null }, { null }, { null },
-						{ null }, { null }, { null }, { null }, { null },
-						{ null }, { null }, { null } },
-				new String[] { "Devices" }) {
-			boolean[] canEdit = new boolean[] { false };
+				new Object[][] { { null, null }, { null, null },
+						{ null, null }, { null, null }, { null, null },
+						{ null, null }, { null, null }, { null, null },
+						{ null, null }, { null, null }, { null, null },
+						{ null, null }, { null, null }, { null, null },
+						{ null, null }, { null, null }, { null, null } },
+				new String[] { "Device's Name", "MAC" }) {
+			boolean[] canEdit = new boolean[] { false, false };
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
 				return canEdit[columnIndex];
 			}
 		});
+		t_Device.getTableHeader().setReorderingAllowed(false);
 		jScrollPane1.setViewportView(t_Device);
 
 		dB_Refresh.setText("Refresh ");
+		dB_Refresh.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				dB_RefreshActionPerformed(evt);
+			}
+		});
 
 		dB_Connect.setText("Connect");
+		dB_Connect.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				dB_ConnectActionPerformed(evt);
+			}
+		});
 
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
@@ -107,9 +127,63 @@ public class DevicePanel extends javax.swing.JPanel {
 												.addComponent(dB_Refresh))
 								.addContainerGap(27, Short.MAX_VALUE)));
 	}// </editor-fold>
-	//GEN-END:initComponents
+		// GEN-END:initComponents
 
-	//GEN-BEGIN:variables
+	private void dB_ConnectActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		javax.swing.JFrame frame = (javax.swing.JFrame) this.getRootPane()
+				.getParent();
+		;
+		frame.remove(this);
+		frame.repaint();
+
+		// (javax.swing.JFrame)parent.remove(this);
+		// System.out.println(this.accessibleContext.getAccessibleParent().getClass());
+		// this.removeAll();
+		// this.repaint();
+	}
+
+	private void dB_RefreshActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		dB_Refresh.setEnabled(false);
+		bt.startInq(bt);
+		devices = bt.getDevices();
+		dB_Refresh.setEnabled(true);
+
+		int tableRowCount = t_Model.getRowCount();
+		if (tableRowCount < devices.size()) {
+			// If current decive's table row < number of devices found,
+			// add extra row before filling the table;
+			for (int i = 0; i < devices.size() - tableRowCount; i++) {
+				t_Model.addRow(new Object[] { "", "" });
+			}
+		}
+
+		tableRowCount = 0; // temp use
+
+		for (RemoteDevice de : devices) {
+			try {
+				t_Model.setValueAt(de.getFriendlyName(false), tableRowCount, 0);
+				t_Model.setValueAt(de.getBluetoothAddress(), tableRowCount++, 1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		//System.out.println(devices.size());
+	}
+
+	private void myInitComponents() {
+		try {
+			bt = new Bluetooth();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		t_Model = (DefaultTableModel) t_Device.getModel();
+	}
+
+	// GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton dB_Connect;
 	private javax.swing.JButton dB_Refresh;
@@ -119,4 +193,7 @@ public class DevicePanel extends javax.swing.JPanel {
 	private javax.swing.JTable t_Device;
 	// End of variables declaration//GEN-END:variables
 
+	private Bluetooth bt;
+	private Vector<RemoteDevice> devices;
+	private DefaultTableModel t_Model;
 }
