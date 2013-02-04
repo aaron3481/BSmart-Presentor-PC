@@ -11,7 +11,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * 
- * @author __USER__
+ * @author Jiannan Cai
  */
 public class MainPanel extends javax.swing.JPanel {
 

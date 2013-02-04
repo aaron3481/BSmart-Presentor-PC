@@ -16,7 +16,7 @@ import bsp.ui.animation.WindowAnimation;
 
 /**
  * 
- * @author __USER__
+ * @author Jiannan Cai
  */
 public class MainFrame extends javax.swing.JFrame {
 

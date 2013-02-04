@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * 
- * @author __USER__
+ * @author Jiannan Cai
  */
 public class DevicePanel extends javax.swing.JPanel {
 
