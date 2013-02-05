@@ -6,8 +6,9 @@
 
 package bsp.ui;
 
-import bsp.connection.Bluetooth;
 import java.util.Vector;
+
+import bsp.connection.Bluetooth;
 
 import javax.bluetooth.RemoteDevice;
 import javax.swing.table.DefaultTableModel;
@@ -24,7 +25,7 @@ public class DevicePanel extends javax.swing.JPanel {
 		myInitComponents();
 	}
 
-	// GEN-BEGIN:initComponents
+	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -42,13 +43,8 @@ public class DevicePanel extends javax.swing.JPanel {
 
 		t_Device.setFont(new java.awt.Font("Segoe UI", 0, 14));
 		t_Device.setModel(new javax.swing.table.DefaultTableModel(
-				new Object[][] { { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null },
-						{ null, null }, { null, null }, { null, null } },
-				new String[] { "Device's Name", "MAC" }) {
+				new Object[][] { { null, null } }, new String[] {
+						"Device's Name", "MAC" }) {
 			boolean[] canEdit = new boolean[] { false, false };
 
 			public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -79,23 +75,25 @@ public class DevicePanel extends javax.swing.JPanel {
 				.addGroup(
 						layout.createSequentialGroup().addContainerGap()
 								.addComponent(l_device)
-								.addContainerGap(95, Short.MAX_VALUE))
+								.addContainerGap(96, Short.MAX_VALUE))
 				.addGroup(
 						javax.swing.GroupLayout.Alignment.TRAILING,
 						layout.createSequentialGroup()
-								.addContainerGap(13, Short.MAX_VALUE)
+								.addContainerGap(
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)
 								.addComponent(jScrollPane1,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										292,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addContainerGap())
 				.addComponent(jSeparator1,
-						javax.swing.GroupLayout.DEFAULT_SIZE, 317,
+						javax.swing.GroupLayout.DEFAULT_SIZE, 320,
 						Short.MAX_VALUE)
 				.addGroup(
 						javax.swing.GroupLayout.Alignment.TRAILING,
 						layout.createSequentialGroup()
-								.addContainerGap(81, Short.MAX_VALUE)
+								.addContainerGap(63, Short.MAX_VALUE)
 								.addComponent(dB_Refresh)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -125,9 +123,11 @@ public class DevicePanel extends javax.swing.JPanel {
 												javax.swing.GroupLayout.Alignment.LEADING)
 												.addComponent(dB_Connect)
 												.addComponent(dB_Refresh))
-								.addContainerGap(27, Short.MAX_VALUE)));
+								.addContainerGap(
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										Short.MAX_VALUE)));
 	}// </editor-fold>
-		// GEN-END:initComponents
+	//GEN-END:initComponents
 
 	private void dB_ConnectActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
@@ -161,12 +161,13 @@ public class DevicePanel extends javax.swing.JPanel {
 
 		tableRowCount = 0; // temp use
 
-		for (RemoteDevice de : devices) {
+		for (RemoteDevice de : devices) {			
 			try {
 				t_Model.setValueAt(de.getFriendlyName(false), tableRowCount, 0);
 				t_Model.setValueAt(de.getBluetoothAddress(), tableRowCount++, 1);
 			} catch (Exception e) {
-				e.printStackTrace();
+				t_Model.removeRow(t_Model.getRowCount()-1);
+				//tableRowCount--;
 			}
 		}
 
@@ -183,7 +184,7 @@ public class DevicePanel extends javax.swing.JPanel {
 		t_Model = (DefaultTableModel) t_Device.getModel();
 	}
 
-	// GEN-BEGIN:variables
+	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton dB_Connect;
 	private javax.swing.JButton dB_Refresh;

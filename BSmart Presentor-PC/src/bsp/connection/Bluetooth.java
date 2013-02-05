@@ -1,7 +1,6 @@
 package bsp.connection;
 
 import javax.bluetooth.*;
-
 import java.util.Vector;
 
 public class Bluetooth implements DiscoveryListener {
@@ -24,9 +23,13 @@ public class Bluetooth implements DiscoveryListener {
 		setdAgent(loc_Device.getDiscoveryAgent());
 	}
 
+	// This function start Bluetooth devices inquiry and automatically
+	// fill up the passed in JTable.
+	// IOException may occur.
 	public void startInq(Bluetooth instance) {
+		// Strat inquiry
 		try {
-			dAgent.startInquiry(DiscoveryAgent.GIAC, instance);
+			dAgent.startInquiry(DiscoveryAgent.LIAC, instance);
 		} catch (BluetoothStateException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,6 +47,7 @@ public class Bluetooth implements DiscoveryListener {
 	public void deviceDiscovered(RemoteDevice arg0, DeviceClass arg1) {
 		// System.out.println("Device discovered: " +
 		// arg0.getBluetoothAddress());
+		// System.out.println("Discover");
 		if (!devices.contains(arg0)) {
 			devices.addElement(arg0);
 		}
@@ -57,6 +61,7 @@ public class Bluetooth implements DiscoveryListener {
 		}
 		switch (arg0) {
 		case DiscoveryListener.INQUIRY_COMPLETED:
+			System.out.println(devices.size());
 			System.out.println("INQUIRY_COMPLETED");
 			break;
 		case DiscoveryListener.INQUIRY_TERMINATED:
