@@ -34,19 +34,28 @@ public class Record {
 		assert (slide <= slideCount && slide > 0);
 		if (!note.equals(""))
 			noteCount++;
-		slides[slide - 1] = new Slide(slide, numClick, cumulateClick, note);
+		slides[slide] = new Slide(slide + 1, numClick, cumulateClick, note);
 	}
 
 	public void printRecord() {
+		System.out
+				.println("\n------------------------Printing Record------------------------");
+
 		System.out.println("File: " + fileName + "\tPath: " + path);
 		System.out.println("Total Slides Counnt: " + slideCount
 				+ "\tTotal Note Count: " + noteCount);
-		System.out.println("---------------------------------------------------------------");
-		
-		for(Slide slide : slides){
-			//System.out.format(format, args)
+		System.out
+				.println("---------------------------------------------------------------");
+
+		for (Slide slide : slides) {
+			System.out
+					.format("Slide: %d\nNum of Click: %d\tCumulate of Click: %d \nNote: %s\n",
+							slide.getSlide(), slide.getNumClick(),
+							slide.getCumlateClick(), slide.getNote());
+			System.out
+					.println("---------------------------------------------------------------");
 		}
-		
+
 	}
 
 }

@@ -1,5 +1,9 @@
 package bsp.fileloader;
 
-public interface Loader {
-
+public class Loader {
+	
+	public String[] getProperty(){
+		return null;
+	}
+	
 }

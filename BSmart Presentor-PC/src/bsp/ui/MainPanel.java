@@ -6,8 +6,14 @@
 
 package bsp.ui;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.FileNotFoundException;
+
 import javax.swing.JFileChooser;
+import javax.swing.JProgressBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import bsp.fileloader.Loader;
 
 /**
  * 
@@ -18,12 +24,7 @@ public class MainPanel extends javax.swing.JPanel {
 	/** Creates new form MainPanel */
 	public MainPanel() {
 		initComponents();
-		initFChooser();
-		//System.out.println(p_Body.getPreferredSize());
-		javax.swing.JButton test = new javax.swing.JButton("Test");
-		test.setBounds(0, 45, 315, 330);
-		this.add(test);
-		this.repaint();
+		initMyComponents();
 	}
 
 	/**
@@ -36,6 +37,8 @@ public class MainPanel extends javax.swing.JPanel {
 	private void initComponents() {
 
 		fileChooser = new javax.swing.JFileChooser();
+		loadFile = new javax.swing.JProgressBar();
+		l_loading = new javax.swing.JLabel();
 		ll_Path = new javax.swing.JLabel();
 		TF_Path = new javax.swing.JTextField();
 		b_Open = new javax.swing.JButton();
@@ -44,6 +47,9 @@ public class MainPanel extends javax.swing.JPanel {
 		b_TimeFrame = new javax.swing.JButton();
 		b_Send = new javax.swing.JButton();
 		jSeparator2 = new javax.swing.JSeparator();
+
+		l_loading.setFont(new java.awt.Font("Segoe UI", 0, 14));
+		l_loading.setText("Loading: ");
 
 		setPreferredSize(new java.awt.Dimension(315, 430));
 		setRequestFocusEnabled(false);
@@ -63,8 +69,18 @@ public class MainPanel extends javax.swing.JPanel {
 
 		b_Load.setText("Load");
 		b_Load.setPreferredSize(new java.awt.Dimension(95, 25));
+		b_Load.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				b_LoadActionPerformed(evt);
+			}
+		});
 
 		b_TimeFrame.setText("Time Frame");
+		b_TimeFrame.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				b_TimeFrameActionPerformed(evt);
+			}
+		});
 
 		b_Send.setText("Send");
 		b_Send.addActionListener(new java.awt.event.ActionListener() {
@@ -156,6 +172,44 @@ public class MainPanel extends javax.swing.JPanel {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
+	private void b_TimeFrameActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		/*for(int i =0; i<190000;i++){
+			loadFile.setValue(i);
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}*/
+		PBTask task = new PBTask();
+		task.addPropertyChangeListener(new PropertyChangeListener() {
+
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				// TODO Auto-generated method stub
+				//System.out.println("Change");
+				 if ("progress".equals(evt.getPropertyName())) {
+	                 loadFile.setValue((Integer)evt.getNewValue());
+	             }
+			}
+	     });
+		
+		task.execute();
+	}
+
+	private void b_LoadActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		String path = TF_Path.getText();
+		String extension = path.substring(path.lastIndexOf('.'));
+		if (extension.equals(".pptx")) {
+			loader = new bsp.fileloader.LoadPPTX(path, loadFile, l_loading);
+		}
+
+		return;
+	}
+
 	private void b_SendActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
 		javax.swing.JFrame parent = (javax.swing.JFrame) this.getRootPane()
@@ -171,13 +225,40 @@ public class MainPanel extends javax.swing.JPanel {
 			TF_Path.setToolTipText(TF_Path.getText());
 			//System.out.println(TF_Path.getText());
 		}
+		b_Load.setEnabled(true);
+	}
+
+	private void initMyComponents() {
+		initFChooser();
+
+		b_Load.setEnabled(false);
+		b_Send.setEnabled(false);
+		//b_TimeFrame.setEnabled(false);
+
+		loadFile.setBounds(84, 210, 146, 14);
+		loadFile.setStringPainted(true);
+		loadFile.setMaximum(100);
+
+		//loadFile.setValue(5);
+
+		l_loading.setBounds(129, 224, 100, 20);
+
+		this.add(loadFile);
+		this.add(l_loading);
+		this.repaint();
+
+		//System.out.println(p_Body.getPreferredSize());
+		javax.swing.JButton test = new javax.swing.JButton("Test");
+		test.setBounds(0, 45, 315, 330);
+		//this.add(test);
+		//this.repaint();
 	}
 
 	// Initialise the file chooser. Only the .ppt or .pdf files
 	// can be shown
 	private void initFChooser() {
 		FileNameExtensionFilter filter = new FileNameExtensionFilter(
-				"ppt or pdf", "ppt", "pdf");
+				"ppt,pptx or pdf", "ppt", "pptx", "pdf");
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.setFileFilter(filter);
 	}
@@ -192,7 +273,31 @@ public class MainPanel extends javax.swing.JPanel {
 	private javax.swing.JFileChooser fileChooser;
 	private javax.swing.JSeparator jSeparator1;
 	private javax.swing.JSeparator jSeparator2;
+	private javax.swing.JLabel l_loading;
 	private javax.swing.JLabel ll_Path;
+	private javax.swing.JProgressBar loadFile;
 	// End of variables declaration//GEN-END:variables
+
+	private Loader loader;
+	
+	class PBTask extends javax.swing.SwingWorker<javax.swing.JProgressBar, Integer>{
+
+		@Override
+		protected JProgressBar doInBackground() throws Exception {
+			// TODO Auto-generated method stub
+			for(int i =0; i<100;i++){
+				setProgress(i);
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return null;
+		}
+		
+		
+	}
 
 }
