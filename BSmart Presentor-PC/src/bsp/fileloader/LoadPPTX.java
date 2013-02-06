@@ -6,6 +6,7 @@ import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
 import org.apache.poi.xslf.usermodel.XSLFNotes;
 import org.apache.poi.xslf.usermodel.XSLFTextShape;
+import org.openxmlformats.schemas.presentationml.x2006.main.CTSlideTiming;
 
 public class LoadPPTX extends Loader {
 
@@ -58,17 +59,21 @@ public class LoadPPTX extends Loader {
 		int index = 0;
 		String note = "";
 
-		proc.setMaximum(slides.length);
-		proc.setValue(0);
-		lab.setText("Loading: 0%");
+		// proc.setMaximum(slides.length);
+		// proc.setValue(0);
+		// lab.setText("Loading: 0%");
 
 		for (XSLFSlide slide : slides) {
 			click = 1;
 			String xml = "";
 			note = "";
 
-			xml = slide.getXmlObject().getTiming().toString();
-			click += countAnim(xml, 0);
+			CTSlideTiming timing = slide.getXmlObject().getTiming();
+			if (timing != null) {
+				xml = slide.getXmlObject().getTiming().toString();
+				click += countAnim(xml, 0);
+			}
+
 			cumulateClick += click;
 
 			XSLFNotes notes = slide.getNotes();
@@ -81,16 +86,7 @@ public class LoadPPTX extends Loader {
 				}
 			}
 			record.addSlide(index++, click, cumulateClick, note);
-			proc.setValue(index);
-			lab.setText("Loading: "
-					+ (int) ((double) index / (double) slides.length * 100.0)
-					+ "%");
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
 		}
 
 		isPrepare = true;

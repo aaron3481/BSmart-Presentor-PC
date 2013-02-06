@@ -205,6 +205,7 @@ public class MainPanel extends javax.swing.JPanel {
 		String extension = path.substring(path.lastIndexOf('.'));
 		if (extension.equals(".pptx")) {
 			loader = new bsp.fileloader.LoadPPTX(path, loadFile, l_loading);
+			System.out.println(path);
 		}
 
 		return;
