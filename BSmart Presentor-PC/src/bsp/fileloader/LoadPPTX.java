@@ -1,6 +1,11 @@
 package bsp.fileloader;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.FileInputStream;
+
+import javax.swing.JProgressBar;
+
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
@@ -19,8 +24,9 @@ public class LoadPPTX extends Loader {
 	private Record record;
 	private boolean isPrepare;
 
-	public LoadPPTX(String path, javax.swing.JProgressBar proc,
-			javax.swing.JLabel lab) {
+	public LoadPPTX(javax.swing.JPanel emp, String path) {
+		super(emp);
+		
 		try {
 			presentation = new XMLSlideShow(new FileInputStream(path));
 			slides = presentation.getSlides();
@@ -30,8 +36,20 @@ public class LoadPPTX extends Loader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		LoadTask task = setUpTask();
+		
+		task.addPropertyChangeListener(new PropertyChangeListener(){
 
-		prepare(proc, lab);
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				// TODO Auto-generated method stub
+				taskListenerPerform(evt);
+			}
+			
+		});
+
+		prepare();
 		record.printRecord();
 	}
 
@@ -53,7 +71,7 @@ public class LoadPPTX extends Loader {
 
 	}
 
-	private void prepare(javax.swing.JProgressBar proc, javax.swing.JLabel lab) {
+	private void prepare() {
 		int cumulateClick = 0;
 		int click = 1;
 		int index = 0;
@@ -102,6 +120,52 @@ public class LoadPPTX extends Loader {
 			return countAnim(xml.substring(0, result), carry);
 		} else
 			return carry;
+	}
+	
+	private LoadTask setUpTask(){
+		return new LoadTask(){
+			
+			@Override
+			protected Void doInBackground() throws Exception {
+				
+				int cumulateClick = 0;
+				int click = 1;
+				int index = 0;
+				String note = "";
+
+				for (XSLFSlide slide : slides) {
+					click = 1;
+					String xml = "";
+					note = "";
+
+					CTSlideTiming timing = slide.getXmlObject().getTiming();
+					if (timing != null) {
+						xml = slide.getXmlObject().getTiming().toString();
+						click += countAnim(xml, 0);
+					}
+
+					cumulateClick += click;
+
+					XSLFNotes notes = slide.getNotes();
+					if (notes != null) {
+						XSLFShape[] shapes = notes.getShapes();
+						for (int i = 1; i < shapes.length - 1; i++) {
+							if (shapes[i] instanceof XSLFTextShape) {
+								note = ((XSLFTextShape) shapes[i]).getText();
+							}
+						}
+					}
+					record.addSlide(index++, click, cumulateClick, note);
+
+				}
+				return null;
+			}
+			
+		};
+	}
+	
+	private void taskListenerPerform(java.beans.PropertyChangeEvent evt){
+		this.getEmployer().getPropertyChangeListeners("progress");
 	}
 
 }
