@@ -318,14 +318,16 @@ public class MainPanel extends javax.swing.JPanel {
 	private Loader loader;
 
 	class PBTask extends
-			javax.swing.SwingWorker<javax.swing.JProgressBar, Integer> {
+			javax.swing.SwingWorker<Void,Void> {
 
+		//super(new PropertyChangeSupport(this));
+		
 		@Override
-		protected JProgressBar doInBackground() throws Exception {
-
+		protected Void doInBackground() throws Exception {
 			// TODO Auto-generated method stub
 			for (int i = 0; i < 101; i++) {
 				setProgress(i);
+				
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
