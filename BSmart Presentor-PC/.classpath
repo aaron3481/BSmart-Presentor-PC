@@ -11,6 +11,5 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/bluecove-gpl-2.1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/poi3_9"/>
-	<classpathentry kind="lib" path="/CS447-A1/lib/asm-4.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

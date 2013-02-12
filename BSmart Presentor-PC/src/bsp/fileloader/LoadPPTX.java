@@ -1,11 +1,6 @@
 package bsp.fileloader;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.FileInputStream;
-
-import javax.swing.JProgressBar;
-
 import org.apache.poi.xslf.usermodel.XMLSlideShow;
 import org.apache.poi.xslf.usermodel.XSLFShape;
 import org.apache.poi.xslf.usermodel.XSLFSlide;
@@ -21,12 +16,8 @@ public class LoadPPTX extends Loader {
 	private XMLSlideShow presentation;
 	private XSLFSlide[] slides;
 	// private XSLFNotes notes;
-	private Record record;
-	private boolean isPrepare;
 
-	public LoadPPTX(javax.swing.JPanel emp, String path) {
-		super(emp);
-		
+	public LoadPPTX(String path) {
 		try {
 			presentation = new XMLSlideShow(new FileInputStream(path));
 			slides = presentation.getSlides();
@@ -36,50 +27,18 @@ public class LoadPPTX extends Loader {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		LoadTask task = setUpTask();
-		
-		task.addPropertyChangeListener(new PropertyChangeListener(){
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				// TODO Auto-generated method stub
-				taskListenerPerform(evt);
-			}
-			
-		});
-
-		prepare();
-		record.printRecord();
 	}
 
+	
 	@Override
-	public String[] getProperty() {
-		// result[0] = file type;
-		// result[1] = file name;
-		// result[2] = file path;
-		// result[3] = slide count;
-		// result[4] = note count;
-		if (isPrepare)
-			return new String[] {
-					record.getFileName().substring(
-							record.getFileName().lastIndexOf('.') + 1),
-					record.getFileName(), record.getPath(),
-					"" + record.getSlideCount(), "" + record.getNoteCount() };
-		else
-			return null;
-
-	}
-
-	private void prepare() {
+	// This function do the actual "load" work to a 
+	// Record class
+	public void prepare(bsp.ui.MainPanel.PreparePPTXTask proc) {
 		int cumulateClick = 0;
 		int click = 1;
 		int index = 0;
 		String note = "";
-
-		// proc.setMaximum(slides.length);
-		// proc.setValue(0);
-		// lab.setText("Loading: 0%");
+		double size = slides.length;
 
 		for (XSLFSlide slide : slides) {
 			click = 1;
@@ -104,9 +63,10 @@ public class LoadPPTX extends Loader {
 				}
 			}
 			record.addSlide(index++, click, cumulateClick, note);
-
+			proc.setProg((int)((double)index/size*100.0));
+			
 		}
-
+		//record.printRecord();
 		isPrepare = true;
 	}
 
@@ -121,51 +81,4 @@ public class LoadPPTX extends Loader {
 		} else
 			return carry;
 	}
-	
-	private LoadTask setUpTask(){
-		return new LoadTask(){
-			
-			@Override
-			protected Void doInBackground() throws Exception {
-				
-				int cumulateClick = 0;
-				int click = 1;
-				int index = 0;
-				String note = "";
-
-				for (XSLFSlide slide : slides) {
-					click = 1;
-					String xml = "";
-					note = "";
-
-					CTSlideTiming timing = slide.getXmlObject().getTiming();
-					if (timing != null) {
-						xml = slide.getXmlObject().getTiming().toString();
-						click += countAnim(xml, 0);
-					}
-
-					cumulateClick += click;
-
-					XSLFNotes notes = slide.getNotes();
-					if (notes != null) {
-						XSLFShape[] shapes = notes.getShapes();
-						for (int i = 1; i < shapes.length - 1; i++) {
-							if (shapes[i] instanceof XSLFTextShape) {
-								note = ((XSLFTextShape) shapes[i]).getText();
-							}
-						}
-					}
-					record.addSlide(index++, click, cumulateClick, note);
-
-				}
-				return null;
-			}
-			
-		};
-	}
-	
-	private void taskListenerPerform(java.beans.PropertyChangeEvent evt){
-		this.getEmployer().getPropertyChangeListeners("progress");
-	}
-
 }

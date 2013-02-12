@@ -6,6 +6,132 @@
     </Component>
     <Component class="javax.swing.JProgressBar" name="loadFile">
     </Component>
+    <Container class="javax.swing.JPanel" name="propertyP">
+      <Properties>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[315, 330]"/>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="pPath" alignment="0" pref="287" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="pTypeL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="pType" pref="213" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="pNameL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="pName" pref="205" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="pNumCL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="pNumC" pref="157" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="pCumL" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="pCum" pref="157" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="pPathL" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="pTypeL" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="pType" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="pNameL" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="pName" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="pNumCL" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="pNumC" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="pCumL" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="pCum" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="pPathL" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="pPath" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="137" max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="pTypeL">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File Type: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pType">
+          <Properties>
+            <Property name="text" type="java.lang.String" value=" "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pNameL">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File Nmae: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pName">
+          <Properties>
+            <Property name="text" type="java.lang.String" value=" "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pNumCL">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Number of Slides: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pNumC">
+          <Properties>
+            <Property name="text" type="java.lang.String" value=" "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pCumL">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Number of Notes: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pCum">
+          <Properties>
+            <Property name="text" type="java.lang.String" value=" "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pPathL">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="File Path: "/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="pPath">
+          <Properties>
+            <Property name="text" type="java.lang.String" value=" "/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
   </NonVisualComponents>
   <Properties>
     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -13,9 +139,6 @@
     </Property>
     <Property name="requestFocusEnabled" type="boolean" value="false"/>
   </Properties>
-  <Events>
-    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="formPropertyChange"/>
-  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -34,12 +157,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="ll_Path" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="TF_Path" pref="185" max="32767" attributes="0"/>
+              <Component id="TF_Path" pref="191" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="b_Open" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jSeparator1" alignment="0" pref="315" max="32767" attributes="0"/>
+          <Component id="jSeparator1" alignment="0" pref="335" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="b_Load" min="-2" pref="103" max="-2" attributes="0"/>
@@ -49,12 +172,7 @@
               <Component id="b_TimeFrame" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="14" max="32767" attributes="0"/>
           </Group>
-          <Component id="jSeparator2" alignment="0" pref="315" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
-              <Component id="jProgressBar1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="88" max="32767" attributes="0"/>
-          </Group>
+          <Component id="jSeparator2" alignment="0" pref="335" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -68,9 +186,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace pref="205" max="32767" attributes="0"/>
-              <Component id="jProgressBar1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
+              <EmptySpace pref="298" max="32767" attributes="0"/>
               <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -136,11 +252,6 @@
       </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">
-    </Component>
-    <Component class="javax.swing.JProgressBar" name="jProgressBar1">
-      <Properties>
-        <Property name="stringPainted" type="boolean" value="true"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>
