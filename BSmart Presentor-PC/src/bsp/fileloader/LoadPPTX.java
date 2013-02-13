@@ -81,4 +81,15 @@ public class LoadPPTX extends Loader {
 		} else
 			return carry;
 	}
+	
+	/*public void test(){
+		CTSlideTiming tim = slides[0].getXmlObject().getTiming();
+		if(tim != null)
+			System.out.println(countAnim(tim.toString(),0));
+	}
+	
+	public static void main(String[]args){
+		LoadPPTX ppt = new LoadPPTX("C:/Users/aaron/Documents/UWaterloo/Presentation_12.pptx");
+		ppt.test();
+	}*/
 }
