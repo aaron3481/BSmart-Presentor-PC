@@ -104,6 +104,8 @@ public class MainFrame extends javax.swing.JFrame {
 	// Other initialisations that not in initComponets()
 	private void myInitComponents() {
 		
+		System.out.println(System.getProperty("os.name"));
+		
 		this.getContentPane().addContainerListener(new java.awt.event.ContainerAdapter() {
 			public void componentRemoved(java.awt.event.ContainerEvent evt) {
 				formComponentRemoved(evt);
@@ -122,7 +124,7 @@ public class MainFrame extends javax.swing.JFrame {
 		devicePanel.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
 
 		add(devicePanel);
-
+		
 		pack();
 
 	}

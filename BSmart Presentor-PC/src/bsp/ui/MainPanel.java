@@ -322,28 +322,44 @@ public class MainPanel extends javax.swing.JPanel {
 		// TODO add your handling code here:
 		String path = TF_Path.getText();
 		String extension = path.substring(path.lastIndexOf('.'));
-		if (extension.equals(".pptx")) {
-			loader = new bsp.fileloader.LoadPPTX(path);
-		}
-
 		loadFile.setValue(0);
 		add(loadFile);
 		repaint();
+		
+		if (extension.equals(".pptx")) {
+			loader = new bsp.fileloader.LoadPPTX(path);
+			PreparePPTXTask task = new PreparePPTXTask();
+			task.addPropertyChangeListener(new PropertyChangeListener() {
 
-		PreparePPTXTask task = new PreparePPTXTask();
-		task.addPropertyChangeListener(new PropertyChangeListener() {
-
-			@Override
-			public void propertyChange(PropertyChangeEvent evt) {
-				int oldV = loadFile.getValue();
-				if (evt.getPropertyName().equals("progress")) {
-					for (int i = oldV; i <= (Integer) evt.getNewValue(); i++)
-						loadFile.setValue(i);
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					int oldV = loadFile.getValue();
+					if (evt.getPropertyName().equals("progress")) {
+						for (int i = oldV; i <= (Integer) evt.getNewValue(); i++)
+							loadFile.setValue(i);
+					}
 				}
-			}
-		});
+			});
 
-		task.execute();
+			task.execute();
+		}
+		else if(extension.equals(".ppt")){
+			loader = new bsp.fileloader.LoadPPT(path);
+			PreparePPTTask task = new PreparePPTTask();
+			task.addPropertyChangeListener(new PropertyChangeListener() {
+
+				@Override
+				public void propertyChange(PropertyChangeEvent evt) {
+					int oldV = loadFile.getValue();
+					if (evt.getPropertyName().equals("progress")) {
+						for (int i = oldV; i <= (Integer) evt.getNewValue(); i++)
+							loadFile.setValue(i);
+					}
+				}
+			});
+
+			task.execute();
+		}
 	}
 
 	private void b_SendActionPerformed(java.awt.event.ActionEvent evt) {
@@ -402,7 +418,7 @@ public class MainPanel extends javax.swing.JPanel {
 				"ppt,pptx or pdf", "ppt", "pptx", "pdf");
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.setFileFilter(filter);
-
+		
 	}
 
 	// Task classes
@@ -435,11 +451,42 @@ public class MainPanel extends javax.swing.JPanel {
 			b_Load.setEnabled(false);
 			repaint();
 			revalidate();
-			
 		}
 
 	}
+	
+	public class PreparePPTTask extends javax.swing.SwingWorker<Void, Integer> {
 
+		public void setProg(int val) {
+			this.setProgress(val);
+		}
+
+		@Override
+		protected Void doInBackground() throws Exception {
+			// TODO Auto-generated method stub
+			loader.prepare(this);
+			return null;
+		}
+
+		@Override
+		protected void done() {
+			remove(loadFile);
+
+			String[] prop = loader.getProperty();
+			pType.setText(prop[0]);
+			pName.setText(prop[1]);
+			pNumC.setText(prop[3]);
+			pCum.setText(prop[4]);
+			pPath.setText(prop[2]);
+
+			add(propertyP);
+			// propertyP.setVisible(true);
+			b_Load.setEnabled(false);
+			repaint();
+			revalidate();
+		}
+
+	}
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JTextField TF_Path;

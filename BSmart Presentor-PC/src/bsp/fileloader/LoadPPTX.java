@@ -33,6 +33,7 @@ public class LoadPPTX extends Loader {
 	@Override
 	// This function do the actual "load" work to a 
 	// Record class
+	// The number of click is including the last click to switch to next slide
 	public void prepare(bsp.ui.MainPanel.PreparePPTXTask proc) {
 		int cumulateClick = 0;
 		int click = 1;
@@ -66,7 +67,7 @@ public class LoadPPTX extends Loader {
 			proc.setProg((int)((double)index/size*100.0));
 			
 		}
-		//record.printRecord();
+		record.printRecord();
 		isPrepare = true;
 	}
 
@@ -82,14 +83,15 @@ public class LoadPPTX extends Loader {
 			return carry;
 	}
 	
-	/*public void test(){
+	public void test(){
 		CTSlideTiming tim = slides[0].getXmlObject().getTiming();
 		if(tim != null)
 			System.out.println(countAnim(tim.toString(),0));
 	}
 	
 	public static void main(String[]args){
-		LoadPPTX ppt = new LoadPPTX("C:/Users/aaron/Documents/UWaterloo/Presentation_12.pptx");
+		//LoadPPTX ppt = new LoadPPTX("C:/Users/aaron/Documents/UWaterloo/Presentation_12.pptx");
+		LoadPPTX ppt = new LoadPPTX("C:/Users/Aaron/Documents/Presentation_Move.pptx");
 		ppt.test();
-	}*/
+	}
 }
