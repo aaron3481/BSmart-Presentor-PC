@@ -22,11 +22,19 @@ public class Loader {
 
 	}
 	
-	public void prepare(bsp.ui.MainPanel.PreparePPTXTask task){
+	/*public void prepare(bsp.ui.MainPanel.PreparePPTXTask task){
 		
 	}
 	
 	public void prepare(bsp.ui.MainPanel.PreparePPTTask task){
+		
+	}
+	
+	public void prepare(bsp.ui.MainPanel.PreparePDFTask task){
+		
+	}*/
+	
+	public void prepare(bsp.ui.MainPanel.PrepareTask task){
 		
 	}
 }

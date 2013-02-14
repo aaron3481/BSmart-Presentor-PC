@@ -39,7 +39,7 @@ public final class PPT2PNG {
     	
     	String file = null;
     	float scale = (float) 0.7;
-    	int slidenum = 52;
+    	//int slidenum = 52;
     	
         /*if (args.length == 0) {
             usage();
@@ -105,7 +105,5 @@ public final class PPT2PNG {
         }
     }
 
-    private static void usage(){
-        System.out.println("Usage: PPT2PNG [-scale <scale> -slide <num>] ppt");
-    }
+    
 }

@@ -157,12 +157,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="ll_Path" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="TF_Path" pref="191" max="32767" attributes="0"/>
+              <Component id="TF_Path" pref="185" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="b_Open" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jSeparator1" alignment="0" pref="335" max="32767" attributes="0"/>
+          <Component id="jSeparator1" alignment="0" pref="315" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="b_Load" min="-2" pref="103" max="-2" attributes="0"/>
@@ -172,7 +172,7 @@
               <Component id="b_TimeFrame" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="14" max="32767" attributes="0"/>
           </Group>
-          <Component id="jSeparator2" alignment="0" pref="335" max="32767" attributes="0"/>
+          <Component id="jSeparator2" alignment="0" pref="315" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -186,7 +186,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace pref="298" max="32767" attributes="0"/>
+              <EmptySpace pref="320" max="32767" attributes="0"/>
               <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">

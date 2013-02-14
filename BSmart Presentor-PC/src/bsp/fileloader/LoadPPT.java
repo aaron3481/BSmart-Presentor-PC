@@ -37,7 +37,7 @@ public class LoadPPT extends Loader {
 	}
 
 	@Override
-	public void prepare(bsp.ui.MainPanel.PreparePPTTask task) {
+	public void prepare(bsp.ui.MainPanel.PrepareTask task) {
 		String note = "";
 		double size = slides.length;
 		int cumulate = 0;

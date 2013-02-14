@@ -34,7 +34,7 @@ public class LoadPPTX extends Loader {
 	// This function do the actual "load" work to a 
 	// Record class
 	// The number of click is including the last click to switch to next slide
-	public void prepare(bsp.ui.MainPanel.PreparePPTXTask proc) {
+	public void prepare(bsp.ui.MainPanel.PrepareTask proc) {
 		int cumulateClick = 0;
 		int click = 1;
 		int index = 0;
