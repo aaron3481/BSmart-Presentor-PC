@@ -320,7 +320,6 @@ public class MainPanel extends javax.swing.JPanel {
 	}
 
 	private void b_LoadActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
 		String path = TF_Path.getText();
 		String extension = path.substring(path.lastIndexOf('.'));
 		loadFile.setValue(0);
@@ -329,24 +328,53 @@ public class MainPanel extends javax.swing.JPanel {
 
 		if (extension.equals(".pptx")) {
 			loader = new bsp.fileloader.LoadPPTX(path);
-		}else if(extension.equals(".ppt")){
-			pptGuide = new PPTGuide((javax.swing.JFrame)this.getRootPane().getParent(),true);
-			//pptGuide
+		} else if (extension.equals(".ppt")) {
+			pptGuide = new PPTGuide((javax.swing.JFrame) this.getRootPane()
+					.getParent(), true);
+			// pptGuide
 			pptGuide.setVisible(true);
-			
-			if(pptGuide.getReturnStatus()==PPTGuide.RET_OK)
+
+			if (pptGuide.getReturnStatus() == PPTGuide.RET_OK)
 				loader = new bsp.fileloader.LoadPPT(path);
-			else{
+			else {
 				b_Load.setEnabled(false);
+				TF_Path.setText("");
+				remove(loadFile);
+				repaint();
+
+				return;
+			}
+		} else if (extension.equals(".pdf")) {
+
+			pdfGuide = new PDFGuide((javax.swing.JFrame) this.getRootPane()
+					.getParent(), true);
+			pdfGuide.setVisible(true);
+
+			if (pdfGuide.getReturnStatus() == PDFGuide.RET_OK)
+				loader = new bsp.fileloader.LoadPDF(path, null);
+			else if (pdfGuide.getReturnStatus() == PDFGuide.RET_OPEN) {
+				FileNameExtensionFilter filter = new FileNameExtensionFilter(
+						"pdf file", "pdf");
+				fileChooser.setAcceptAllFileFilterUsed(false);
+				fileChooser.setFileFilter(filter);
+
+				int reval = fileChooser.showOpenDialog(this);
+				String notePath = null;
+				if (reval == JFileChooser.APPROVE_OPTION)
+					notePath = fileChooser.getSelectedFile().getPath();
+
+				loader = new bsp.fileloader.LoadPDF(path, notePath);
+				this.initFChooser();
+			} else {
+				b_Load.setEnabled(false);
+				TF_Path.setText("");
 				remove(loadFile);
 				repaint();
 				return;
 			}
-		}else if(extension.equals(".pdf")){
-			loader = new bsp.fileloader.LoadPDF(path,
-					"C:/Users/aaron/Documents/UWaterloo/Presentation_2Note.pdf");
+
 		}
-		
+
 		PrepareTask task = new PrepareTask();
 		task.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
@@ -358,7 +386,7 @@ public class MainPanel extends javax.swing.JPanel {
 				}
 			}
 		});
-		
+
 		task.execute();
 	}
 
@@ -375,7 +403,6 @@ public class MainPanel extends javax.swing.JPanel {
 		if (reval == JFileChooser.APPROVE_OPTION) {
 			TF_Path.setText(fileChooser.getSelectedFile().getPath());
 			TF_Path.setToolTipText(TF_Path.getText());
-			// System.out.println(TF_Path.getText());
 		}
 		if (!previousPath.equals(TF_Path.getText())) {
 			previousPath = TF_Path.getText();
@@ -454,7 +481,7 @@ public class MainPanel extends javax.swing.JPanel {
 		}
 
 	}
-	
+
 	// GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JTextField TF_Path;
@@ -483,6 +510,7 @@ public class MainPanel extends javax.swing.JPanel {
 	private Loader loader;
 	private String previousPath;
 	private bsp.ui.PPTGuide pptGuide;
+	private bsp.ui.PDFGuide pdfGuide;
 	// private final javax.swing.JPanel thisPanel;
 
 }

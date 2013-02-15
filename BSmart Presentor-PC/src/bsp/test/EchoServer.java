@@ -16,6 +16,9 @@ public class EchoServer {
     StreamConnection conn = null;
 
     public EchoServer() {
+    	
+    	System.out.println(uuid.toString());
+    	
         try {
             System.out.println("Setting device to be discoverable...");
             local = LocalDevice.getLocalDevice();
