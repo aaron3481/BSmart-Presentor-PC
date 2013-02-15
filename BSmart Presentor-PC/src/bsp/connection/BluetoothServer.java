@@ -20,7 +20,9 @@ public class BluetoothServer {
 	private ServiceRecord serviceRecord;
 	private final String paringCode;
 	private String currentDeviceMAC;
+	private ServerThread serverT;
 	private boolean isOpen;
+	private boolean isOn;
 	
 	
 	
@@ -28,15 +30,42 @@ public class BluetoothServer {
 		paringCode = generateCode();
 		currentDeviceMAC = null;
 		isOpen = false;
+		isOn = false;
 		
 		URL = "btspp://localhost:" +
 				SERVER_UUID.toString() +
 				";name=BSPServer" +
 				";authorize=false";
+		
+		try{
+			localDev = LocalDevice.getLocalDevice();
+		}catch(Exception e){
+			System.out.println("Cannot get the local Device.");
+			System.exit(1);
+		}
 	}
 	
 	public String getParingCode() {
 		return paringCode;
+	}
+	
+	public void startService(){
+		try {
+			isOn=localDev.setDiscoverable(DiscoveryAgent.GIAC);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		
+		if(isOn&&!isOpen){
+			serverT = new ServerThread();
+			isOpen=true;
+			java.awt.EventQueue.invokeLater(serverT);
+		}else{
+			System.out.println("Either the Bluetooth device is not on; or" +
+					" there is already a server thread is running");
+			System.exit(1);
+		}
 	}
 	
 	private String generateCode(){
@@ -51,7 +80,8 @@ public class BluetoothServer {
 	
 	
 	class ServerThread implements Runnable{
-
+		//private boolean isPaired=false;
+		
 		@Override
 		public void run() {
 			// TODO this is the first version of the server
@@ -63,7 +93,20 @@ public class BluetoothServer {
 				e.printStackTrace();
 			}
 			
-			
+			while(true){
+				StreamConnection conn  = null;
+				try{
+					conn=notifier.acceptAndOpen();
+				}catch(Exception e){
+					e.printStackTrace();
+					continue;
+				}
+				
+				//Check if there is an existing paring device
+				if(currentDeviceMAC==null){
+					
+				}
+			}
 		}
 		
 	}

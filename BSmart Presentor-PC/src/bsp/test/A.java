@@ -1,6 +1,13 @@
 package bsp.test;
 
 public class A {
+	private static A instance;
+	
+	public synchronized static void getInstance(){
+		if(instance==null)
+			instance = new A();
+	}
+	
 	
 	public int number = 5;
 	
