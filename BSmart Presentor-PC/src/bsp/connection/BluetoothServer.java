@@ -23,6 +23,7 @@ public class BluetoothServer {
 	private ServerThread serverT;
 	private boolean isOpen;
 	private boolean isOn;
+	private StreamConnection devConn;
 	
 	
 	
@@ -61,6 +62,7 @@ public class BluetoothServer {
 			serverT = new ServerThread();
 			isOpen=true;
 			java.awt.EventQueue.invokeLater(serverT);
+			//new Thread(serverT).start();
 		}else{
 			System.out.println("Either the Bluetooth device is not on; or" +
 					" there is already a server thread is running");
@@ -69,15 +71,21 @@ public class BluetoothServer {
 	}
 	
 	private String generateCode(){
-		java.util.Random ra = new java.util.Random(1358);
+		java.util.Random ra = new java.util.Random();
 		int temp=0;
 		for(int i=0;i<6;i++){
-			temp+=(ra.nextInt(9)+1)*10^i;
+			temp+=(ra.nextInt(9)+1)*(Math.pow(10, i));
 		}
 		
 		return String.valueOf(temp);
 	}
 	
+	
+	
+	public static void main(String[]arg){
+		BluetoothServer se = new BluetoothServer();
+		se.startService();
+	}
 	
 	class ServerThread implements Runnable{
 		//private boolean isPaired=false;
@@ -89,6 +97,8 @@ public class BluetoothServer {
 			try{
 				notifier=(StreamConnectionNotifier)Connector.open(URL);
 				serviceRecord = localDev.getRecord(notifier);
+				//System.out.println(serviceRecord.getConnectionURL(ServiceRecord.AUTHENTICATE_NOENCRYPT, false));
+				
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -104,7 +114,8 @@ public class BluetoothServer {
 				
 				//Check if there is an existing paring device
 				if(currentDeviceMAC==null){
-					
+					devConn = conn;
+					//currentDeviceMAC 
 				}
 			}
 		}
