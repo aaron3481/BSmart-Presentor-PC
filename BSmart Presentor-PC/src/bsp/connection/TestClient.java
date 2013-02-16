@@ -12,13 +12,15 @@ import javax.bluetooth.LocalDevice;
 import javax.bluetooth.RemoteDevice;
 import javax.bluetooth.ServiceRecord;
 import javax.bluetooth.UUID;
+import javax.microedition.io.StreamConnection;
+import javax.microedition.io.Connector;
 
 
 public class TestClient implements DiscoveryListener{
 	private final static UUID SERVER_UUID = new UUID("00001101CADFFFDC194DCCAB3816FFBE",false);
 	private Vector<ServiceRecord> records=new Vector<ServiceRecord>();
 	private Vector<RemoteDevice> remoteD=new Vector<RemoteDevice>();
-	private UUID[] uuidSet=new UUID[]{SERVER_UUID};
+	private UUID[] uuidSet=new UUID[]{SERVER_UUID,new UUID(0x1101)};
 	
 	private DiscoveryAgent discoveryAgent=null;
 	private DataOutputStream dos=null;
@@ -35,6 +37,26 @@ public class TestClient implements DiscoveryListener{
 	}
 	
 	public synchronized void start(){
+		/*System.out.println(new UUID(0x1101));
+		System.out.println(uuidSet.length);
+		String jj=null;
+		try {
+			jj=discoveryAgent.selectService(SERVER_UUID, ServiceRecord.AUTHENTICATE_NOENCRYPT, false);
+		} catch (BluetoothStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(jj);
+		
+		try {
+			StreamConnection conn = (StreamConnection)Connector.open(jj);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+		
 		try{
 			discoveryAgent.startInquiry(DiscoveryAgent.GIAC, this);
 		}
@@ -77,6 +99,13 @@ public class TestClient implements DiscoveryListener{
 		
 		System.out.println(records.size());
 		System.out.println(remoteD.size());
+		
+		try {
+			StreamConnection con = (StreamConnection)Connector.open(records.get(0).getConnectionURL(ServiceRecord.AUTHENTICATE_NOENCRYPT, false));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 	
