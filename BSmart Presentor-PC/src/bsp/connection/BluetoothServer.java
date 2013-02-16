@@ -61,8 +61,8 @@ public class BluetoothServer {
 		if(isOn&&!isOpen){
 			serverT = new ServerThread();
 			isOpen=true;
-			java.awt.EventQueue.invokeLater(serverT);
-			//new Thread(serverT).start();
+			//java.awt.EventQueue.invokeLater(serverT);
+			new Thread(serverT).start();
 		}else{
 			System.out.println("Either the Bluetooth device is not on; or" +
 					" there is already a server thread is running");
@@ -97,7 +97,7 @@ public class BluetoothServer {
 			try{
 				notifier=(StreamConnectionNotifier)Connector.open(URL);
 				serviceRecord = localDev.getRecord(notifier);
-				//System.out.println(serviceRecord.getConnectionURL(ServiceRecord.AUTHENTICATE_NOENCRYPT, false));
+				System.out.println(serviceRecord);
 				
 			}catch(Exception e){
 				e.printStackTrace();
@@ -111,7 +111,8 @@ public class BluetoothServer {
 					e.printStackTrace();
 					continue;
 				}
-				
+				System.out.println("Connected");
+				System.out.println(serviceRecord.getHostDevice());
 				//Check if there is an existing paring device
 				if(currentDeviceMAC==null){
 					devConn = conn;
