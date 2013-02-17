@@ -42,9 +42,9 @@ public class SystemController {
 		case KeyCode.SWITCH_WINDOW:
 			System.out.println("Switch");			
 			robot.keyPress(java.awt.event.KeyEvent.VK_ALT);
-			robot.keyPress(java.awt.event.KeyEvent.VK_F4);
+			robot.keyPress(java.awt.event.KeyEvent.VK_TAB);
 			//robot.delay(100);
-			robot.keyRelease(java.awt.event.KeyEvent.VK_F4);
+			robot.keyRelease(java.awt.event.KeyEvent.VK_TAB);
 			//robot.delay(100);
 			robot.keyRelease(java.awt.event.KeyEvent.VK_ALT);
 			//robot.delay(100);
