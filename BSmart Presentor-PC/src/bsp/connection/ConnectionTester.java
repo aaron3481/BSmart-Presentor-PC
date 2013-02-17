@@ -307,5 +307,5 @@ public class ConnectionTester extends javax.swing.JFrame {
 	// End of variables declaration//GEN-END:variables
 
 	private TestClient tc;
-
+	
 }

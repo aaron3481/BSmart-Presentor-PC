@@ -26,12 +26,18 @@ public class TestClient implements DiscoveryListener {
 	private DataOutputStream dos = null;
 
 	private int[] transIDs;
+	
+	private boolean wait = true;
 
 	public TestClient(String paringCode) {
 		try {
 			discoveryAgent = LocalDevice.getLocalDevice().getDiscoveryAgent();
 			discoveryAgent.startInquiry(DiscoveryAgent.GIAC, this);
-			wait();
+			while(wait){
+				
+			}
+			//wait();
+			wait=true;
 			transIDs = new int[remoteD.size()];
 
 			for (int i = 0; i < remoteD.size(); i++) {
@@ -40,18 +46,21 @@ public class TestClient implements DiscoveryListener {
 
 					transIDs[i] = discoveryAgent.searchServices(null, uuidSet,
 							rd, this);
-					System.out.println(transIDs[i]);
+					//System.out.println(transIDs[i]);
 				} catch (BluetoothStateException ex) {
 					continue;
 				}
 			}
-			wait();
-
+			//wait();
+			while(wait)
+			{}
 			StreamConnection con = (StreamConnection) Connector.open(records
 					.get(0).getConnectionURL(
 							ServiceRecord.AUTHENTICATE_NOENCRYPT, false));
 			
 			dos = con.openDataOutputStream();
+			
+			dos.writeUTF(paringCode);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -147,10 +156,7 @@ public class TestClient implements DiscoveryListener {
 
 	@Override
 	public void inquiryCompleted(int arg0) {
-		// TODO Auto-generated method stub
-		synchronized (this) {
-			notify();
-		}
+		wait=false;
 	}
 
 	@Override
@@ -170,12 +176,15 @@ public class TestClient implements DiscoveryListener {
 					break;
 				}
 			}
-
+			
+			wait=false;
+			
+/*
 			if (finished) {
 				synchronized (this) {
 					notify();
 				}
-			}
+			}*/
 			break;
 		case DiscoveryListener.SERVICE_SEARCH_DEVICE_NOT_REACHABLE:
 			// this.do_alert("Device not Reachable" , 4000);
