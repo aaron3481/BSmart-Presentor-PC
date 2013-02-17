@@ -202,15 +202,15 @@ public class BluetoothServer {
 			}
 		}
 		
-		private void anyzier(String com){
+		private synchronized void anyzier(String com){
 			int first=-1;
 			int last=-1;
 			int index = com.indexOf("-");
 			first = Integer.parseInt(com.substring(0,index));
 			if(index!=com.length()-1)
 				last = Integer.parseInt(com.substring(index+1));
-			
 			col.perform(first, last);
+				
 		}
 		
 		@Override

@@ -4,6 +4,8 @@ import bsp.connection.KeyCode;
 
 import java.awt.AWTException;
 import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 
 public class SystemController {
 	private Robot robot;
@@ -18,23 +20,34 @@ public class SystemController {
 		case KeyCode.NEXT_SLIDE:
 			for(int i=0;i<arg1;i++){
 				robot.keyPress(KeyCode.KEY_DOWN_ARROW);
-				try{
-					Thread.sleep(100);
+				robot.keyRelease(KeyCode.KEY_DOWN_ARROW);
+				robot.delay(550);
+				/*try{
+					Thread.sleep(500);
 				}catch(Exception e){
 					e.printStackTrace();
-				}
+				}*/
 			}
 			return true;
 		case KeyCode.PREVIOUS_SLIDE:
-			for(int i=0;i<arg1;i++)
+			for(int i=0;i<arg1;i++){
 				robot.keyPress(KeyCode.KEY_UP_ARROW);
+				robot.keyRelease(KeyCode.KEY_UP_ARROW);
+				robot.delay(150);
+			}
 			return true;
 		case KeyCode.EXIT:
 			robot.keyPress(KeyCode.KEY_ESC);
 			return true;
-		case KeyCode.RESTART:
-			robot.keyPress(KeyCode.KEY_ALT);
-			robot.keyPress(KeyCode.KEY_TAB);
+		case KeyCode.SWITCH_WINDOW:
+			System.out.println("Switch");			
+			robot.keyPress(java.awt.event.KeyEvent.VK_ALT);
+			robot.keyPress(java.awt.event.KeyEvent.VK_F4);
+			//robot.delay(100);
+			robot.keyRelease(java.awt.event.KeyEvent.VK_F4);
+			//robot.delay(100);
+			robot.keyRelease(java.awt.event.KeyEvent.VK_ALT);
+			//robot.delay(100);
 			return true;
 		}			
 		
