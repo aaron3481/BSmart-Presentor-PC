@@ -6,6 +6,7 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 public class SystemController {
 	private Robot robot;
@@ -40,17 +41,34 @@ public class SystemController {
 			robot.keyPress(KeyCode.KEY_ESC);
 			return true;
 		case KeyCode.SWITCH_WINDOW:
-			System.out.println("Switch");			
-			robot.keyPress(java.awt.event.KeyEvent.VK_ALT);
+			System.out.println("Switch");	
+			
+			try {
+				String dd = "cmd /c "+System.getProperty("user.dir")+"\\explorer.lnk";
+				
+				Runtime.getRuntime().exec(dd);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			/*robot.keyPress(java.awt.event.KeyEvent.VK_ALT);
 			robot.keyPress(java.awt.event.KeyEvent.VK_TAB);
 			//robot.delay(100);
 			robot.keyRelease(java.awt.event.KeyEvent.VK_TAB);
 			//robot.delay(100);
-			robot.keyRelease(java.awt.event.KeyEvent.VK_ALT);
+			robot.keyRelease(java.awt.event.KeyEvent.VK_ALT);*/
 			//robot.delay(100);
 			return true;
 		}			
 		
+		
+		
 		return false;
+	}
+	
+	public static void main(String[]arg){
+		System.out.println("cmd /c "+System.getProperty("user.dir")+"\\explorer.lnk");
 	}
 }
