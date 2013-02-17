@@ -165,6 +165,8 @@ public class BluetoothServer {
 						continue;
 					}
 					
+					System.out.println("Starting ISP");
+					
 					isP = new ISProcessThread();
 					//java.awt.EventQueue.invokeLater(new ISProcessThread());
 					isP.start();				
@@ -218,6 +220,7 @@ public class BluetoothServer {
 			
 			while(true){
 				while(isP==thisThread){
+					System.out.println("Into Main Loop");
 					String msg;
 					try{
 						msg = is.readUTF();
