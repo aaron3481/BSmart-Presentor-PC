@@ -2,10 +2,11 @@ package bsp.connection;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 
 import javax.bluetooth.DiscoveryAgent;
 import javax.bluetooth.LocalDevice;
-import javax.bluetooth.ServiceRecord;
+//import javax.bluetooth.ServiceRecord;
 import javax.bluetooth.UUID;
 
 import javax.microedition.io.Connector;
@@ -17,21 +18,31 @@ public class BluetoothServer {
 	private final String URL;
 	private StreamConnectionNotifier notifier;
 	private LocalDevice localDev = null;
-	private ServiceRecord serviceRecord;
+	//private ServiceRecord serviceRecord;
 	private final String paringCode;
-	private String currentDeviceMAC;
-	private ServerThread serverT;
+	//private String currentDeviceMAC;
 	private boolean isOpen;
 	private boolean isOn;
 	private StreamConnection devConn;
 	
+	private DataInputStream is;
+	private DataOutputStream os;
+	private ServerThread serverT;
+	private OSProcessThread osP;
+	private ISProcessThread isP;
 	
 	
 	public BluetoothServer(){
 		paringCode = generateCode();
-		currentDeviceMAC = null;
+		//currentDeviceMAC = null;
 		isOpen = false;
 		isOn = false;
+		devConn = null;
+		is=null;
+		os=null;
+		
+		osP=null;
+		isP=null;
 		
 		URL = "btspp://localhost:" +
 				SERVER_UUID.toString() +
@@ -44,6 +55,9 @@ public class BluetoothServer {
 			System.out.println("Cannot get the local Device.");
 			System.exit(1);
 		}
+		
+		System.out.println(paringCode);
+		
 	}
 	
 	public String getParingCode() {
@@ -59,10 +73,10 @@ public class BluetoothServer {
 		}
 		
 		if(isOn&&!isOpen){
-			serverT = new ServerThread();
 			isOpen=true;
 			//java.awt.EventQueue.invokeLater(serverT);
-			new Thread(serverT).start();
+			serverT = new ServerThread();
+			serverT.start();
 		}else{
 			System.out.println("Either the Bluetooth device is not on; or" +
 					" there is already a server thread is running");
@@ -80,14 +94,20 @@ public class BluetoothServer {
 		return String.valueOf(temp);
 	}
 	
-	
+	//Once the connection lost, ISProcessThread and
+	//OSProcessThread should return and stop and reset
+	//to null
+	private void closeConnection(){
+		osP=null;
+		isP=null;
+	}
 	
 	public static void main(String[]arg){
 		BluetoothServer se = new BluetoothServer();
 		se.startService();
 	}
 	
-	class ServerThread implements Runnable{
+	class ServerThread extends Thread{
 		//private boolean isPaired=false;
 		
 		@Override
@@ -96,9 +116,7 @@ public class BluetoothServer {
 			// and may need to add some thread-safe components here
 			try{
 				notifier=(StreamConnectionNotifier)Connector.open(URL);
-				serviceRecord = localDev.getRecord(notifier);
-				System.out.println(serviceRecord);
-				
+				//serviceRecord = localDev.getRecord(notifier);				
 			}catch(Exception e){
 				e.printStackTrace();
 			}
@@ -111,16 +129,122 @@ public class BluetoothServer {
 					e.printStackTrace();
 					continue;
 				}
-				System.out.println("Connected");
-				System.out.println(serviceRecord.getHostDevice());
-				//Check if there is an existing paring device
-				if(currentDeviceMAC==null){
+				System.out.println("Has incoming connection...");
+				
+				if(devConn==null){
 					devConn = conn;
-					//currentDeviceMAC 
-				}
+					try {
+						System.out.println("Openning data input and output streams");
+						is = devConn.openDataInputStream();
+						os = devConn.openDataOutputStream();
+					} catch (IOException e) {
+						e.printStackTrace();
+						continue;
+					}
+					
+					//waiting for pairing code
+					String pairing;
+					
+					try {
+						pairing = is.readUTF();
+						System.out.println("Receiving pairing code: "+pairing);
+						if(!pairing.equals(paringCode)){
+							System.out.println("Pairing un-match!");
+							is.close();
+							os.close();
+							devConn.close();
+							is = null;
+							os = null;
+							devConn = null;
+							continue;
+						}						
+					} catch (IOException e) {
+						//TODO may need to add staff here.
+						System.out.println("Connection loss");
+						e.printStackTrace();
+						continue;
+					}
+					
+					isP = new ISProcessThread();
+					//java.awt.EventQueue.invokeLater(new ISProcessThread());
+					isP.start();				
+				}else
+					continue;
 			}
 		}
 		
+	}
+	
+	
+	class OSProcessThread extends Thread{
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	class ISProcessThread extends Thread{
+		
+		private bsp.connection.SystemController col=null;
+		
+		public ISProcessThread(){
+			super();
+			try{
+				col = new bsp.connection.SystemController();
+			}catch(Exception e){
+				e.printStackTrace();
+				return;
+			}
+		}
+		
+		private void anyzier(String com){
+			int first=-1;
+			int last=-1;
+			int index = com.indexOf("-");
+			first = Integer.parseInt(com.substring(0,index));
+			if(index!=com.length()-1)
+				last = Integer.parseInt(com.substring(index+1));
+			
+			col.perform(first, last);
+		}
+		
+		@Override
+		public void run() {
+			ISProcessThread thisThread = (ISProcessThread) Thread.currentThread();
+			System.out.println("Opened");		
+			
+			while(true){
+				while(isP==thisThread){
+					String msg;
+					try{
+						msg = is.readUTF();
+						System.out.println(msg);
+					}catch(Exception e){
+						//e.printStackTrace();
+						System.out.println("ISProcessThread Lost");
+						closeConnection();
+						break;
+					}
+					
+					if(col!=null)
+						anyzier(msg);
+					
+				}
+				break;
+			}
+			
+			//If here, means neither connection lost or 
+			//required to close
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			is = null;
+		}
 	}
 
 }
