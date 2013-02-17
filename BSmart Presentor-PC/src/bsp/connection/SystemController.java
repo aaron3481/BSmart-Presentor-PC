@@ -16,8 +16,14 @@ public class SystemController {
 		
 		switch(action){
 		case KeyCode.NEXT_SLIDE:
-			for(int i=0;i<arg1;i++)
+			for(int i=0;i<arg1;i++){
 				robot.keyPress(KeyCode.KEY_DOWN_ARROW);
+				try{
+					Thread.sleep(100);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
 			return true;
 		case KeyCode.PREVIOUS_SLIDE:
 			for(int i=0;i<arg1;i++)
