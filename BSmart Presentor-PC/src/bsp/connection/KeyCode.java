@@ -16,6 +16,7 @@ public class KeyCode {
 	public static final int KEY_TAB=0x9;
 	public static final int KEY_END=0x23;
 	public static final int KEY_HOME=0x24;
+	public static final int KEY_ENTER=0xa;
 	
 	//Require performance
 	public static final int NEXT_SLIDE = 0x0000FFF0;

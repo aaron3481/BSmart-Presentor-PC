@@ -213,7 +213,7 @@ public class BluetoothServer {
 			if(index!=com.length()-1)
 				last = Integer.parseInt(com.substring(index+1));
 			//col.perform(record.getType(),first, last,record.getSlideCount());
-			col.perform("pdf", first, last, 52);
+			col.perform("pdf", first, last, 28);
 				
 		}
 		

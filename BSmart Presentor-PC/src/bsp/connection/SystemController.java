@@ -74,25 +74,26 @@ public class SystemController {
 		case KeyCode.SWITCH_WINDOW:
 			System.out.println("Switch");	
 			
-			try {
-				String dd = "cmd /c "+System.getProperty("user.dir")+"\\explorer.lnk";
+			robot.keyPress(KeyCode.KEY_CTRL);
+			robot.keyPress(KeyCode.KEY_ALT);
+			robot.keyPress(KeyCode.KEY_TAB);
+			
+			
+			
+			
+			/*try {
+				String dd = "cmd /c D:\\app\\explorer.lnk";
 				
 				Runtime.getRuntime().exec(dd);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-			
-			
-			/*robot.keyPress(java.awt.event.KeyEvent.VK_ALT);
-			robot.keyPress(java.awt.event.KeyEvent.VK_TAB);
-			//robot.delay(100);
-			robot.keyRelease(java.awt.event.KeyEvent.VK_TAB);
-			//robot.delay(100);
-			robot.keyRelease(java.awt.event.KeyEvent.VK_ALT);*/
-			//robot.delay(100);
+			}*/
 			break;
-		}			
+		case KeyCode.ENTER:
+			robot.keyPress(KeyCode.KEY_ENTER);
+			robot.keyRelease(KeyCode.KEY_ENTER);
+		}
 		
 	}
 	
