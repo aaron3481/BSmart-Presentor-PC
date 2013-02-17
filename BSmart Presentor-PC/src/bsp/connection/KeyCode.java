@@ -14,6 +14,8 @@ public class KeyCode {
 	public static final int KEY_SPACEBAR=0x20;
 	public static final int KEY_ALT=0x12; 
 	public static final int KEY_TAB=0x9;
+	public static final int KEY_END=0x23;
+	public static final int KEY_HOME=0x24;
 	
 	//Require performance
 	public static final int NEXT_SLIDE = 0x0000FFF0;
@@ -21,4 +23,5 @@ public class KeyCode {
 	public static final int RESTART = 0x0000FFF2;	//restart the presentation
 	public static final int EXIT = 0x0000FFF3;
 	public static final int SWITCH_WINDOW = 0x0000FFF4;
+	public static final int GO_TO_SLIDE = 0x0000FFF5;	
 }

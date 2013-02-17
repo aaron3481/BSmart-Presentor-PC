@@ -1,5 +1,7 @@
 package bsp.test;
 
+import java.util.Properties;
+
 public class B {
 	
 	public void print(){
@@ -31,7 +33,11 @@ public class B {
 	
 	public static void main(String[]ak){
 		
-		String c = "<@Slide-1>\naleijf  kejlwej fke\n\n\njw j\njkjejesl jkekfff jjfjfl aej\n</@Slide>\n<@Slide-25>\nWa kaka\n</@Slide>\n";
+		Properties sysProps = System.getProperties();
+	    System.out.println(sysProps.getProperty("os.name"));
+	    System.out.println(sysProps.getProperty("os.version"));
+		
+		/*String c = "<@Slide-1>\naleijf  kejlwej fke\n\n\njw j\njkjejesl jkekfff jjfjfl aej\n</@Slide>\n<@Slide-25>\nWa kaka\n</@Slide>\n";
 		
 		B b = new B();
 		
@@ -50,6 +56,6 @@ public class B {
 		System.out.println("\n\n\n------------------------------------------------");
 		System.out.println(a[0]);
 		System.out.println(a[1]);
-		System.out.println(a[2]);
+		System.out.println(a[2]);*/
 	}
 }

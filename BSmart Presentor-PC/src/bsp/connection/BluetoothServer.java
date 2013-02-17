@@ -30,7 +30,7 @@ public class BluetoothServer {
 	private ServerThread serverT;
 	private OSProcessThread osP;
 	private ISProcessThread isP;
-	
+	private bsp.fileloader.Record record;
 	
 	public BluetoothServer(){
 		paringCode = generateCode();
@@ -62,6 +62,10 @@ public class BluetoothServer {
 	
 	public String getParingCode() {
 		return paringCode;
+	}
+	public void updateRecord(){
+		record = bsp.fileloader.Record.getInstance();
+		//instance.printRecord();
 	}
 	
 	public void startService(){
@@ -189,7 +193,6 @@ public class BluetoothServer {
 	}
 	
 	class ISProcessThread extends Thread{
-		
 		private bsp.connection.SystemController col=null;
 		
 		public ISProcessThread(){
@@ -209,7 +212,8 @@ public class BluetoothServer {
 			first = Integer.parseInt(com.substring(0,index));
 			if(index!=com.length()-1)
 				last = Integer.parseInt(com.substring(index+1));
-			col.perform(first, last);
+			//col.perform(record.getType(),first, last,record.getSlideCount());
+			col.perform("pdf", first, last, 52);
 				
 		}
 		

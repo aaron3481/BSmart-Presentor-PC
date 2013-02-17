@@ -3,15 +3,24 @@ package bsp.fileloader;
 public class Record {
 	private String fileName;
 	private String path;
+	private String type;
 	private int slideCount, noteCount;
 	private Slide[] slides;
+	
+	private static Record instance;
 
 	public Record(String fileName, String path, int slideCout) {
 		this.fileName = fileName;
+		this.type = fileName.substring(fileName.indexOf(".")+1);
 		this.path = path;
 		this.slideCount = slideCout;
 		noteCount = 0;
 		slides = new Slide[slideCount];
+		instance = this;
+	}
+	
+	public static Record getInstance(){
+		return instance;
 	}
 
 	public String getPath() {
@@ -56,6 +65,10 @@ public class Record {
 					.println("---------------------------------------------------------------");
 		}
 
+	}
+
+	public String getType() {
+		return type;
 	}
 
 }
