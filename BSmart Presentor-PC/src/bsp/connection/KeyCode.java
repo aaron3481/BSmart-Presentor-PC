@@ -24,4 +24,5 @@ public class KeyCode {
 	public static final int EXIT = 0x0000FFF3;
 	public static final int SWITCH_WINDOW = 0x0000FFF4;
 	public static final int GO_TO_SLIDE = 0x0000FFF5;	
+	public static final int ENTER = 0x0000FFF6;
 }
