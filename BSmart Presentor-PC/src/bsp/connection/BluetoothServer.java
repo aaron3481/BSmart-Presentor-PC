@@ -28,9 +28,10 @@ public class BluetoothServer {
 	private DataInputStream is;
 	private DataOutputStream os;
 	private ServerThread serverT;
-	private OSProcessThread osP;
 	private ISProcessThread isP;
 	private bsp.fileloader.Record record;
+	
+	private Object streamLock;
 	
 	public BluetoothServer(){
 		paringCode = generateCode();
@@ -40,9 +41,8 @@ public class BluetoothServer {
 		devConn = null;
 		is=null;
 		os=null;
-		
-		osP=null;
 		isP=null;
+		streamLock = new Object();
 		
 		URL = "btspp://localhost:" +
 				SERVER_UUID.toString() +
@@ -63,9 +63,9 @@ public class BluetoothServer {
 	public String getParingCode() {
 		return paringCode;
 	}
+	
 	public void updateRecord(){
 		record = bsp.fileloader.Record.getInstance();
-		//instance.printRecord();
 	}
 	
 	public void startService(){
@@ -78,13 +78,26 @@ public class BluetoothServer {
 		
 		if(isOn&&!isOpen){
 			isOpen=true;
-			//java.awt.EventQueue.invokeLater(serverT);
 			serverT = new ServerThread();
 			serverT.start();
 		}else{
 			System.out.println("Either the Bluetooth device is not on; or" +
 					" there is already a server thread is running");
 			System.exit(1);
+		}
+	}
+	
+	
+	
+	public static void main(String[]arg){
+		BluetoothServer se = new BluetoothServer();
+		se.startService();
+		try {
+			Thread.sleep(2000);
+			se.notifier.close();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -102,17 +115,31 @@ public class BluetoothServer {
 	//OSProcessThread should return and stop and reset
 	//to null
 	private void closeConnection(){
-		osP=null;
-		isP=null;
-	}
-	
-	public static void main(String[]arg){
-		BluetoothServer se = new BluetoothServer();
-		se.startService();
+		synchronized(streamLock){
+			isP=null;
+			try{
+				if(is!=null){
+					is.close();
+					is=null;
+				}
+				if(os!=null){
+					os.close();
+					os=null;
+				}
+				if(devConn!=null){
+					devConn.close();
+					devConn=null;
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}			
+		}		
 	}
 	
 	class ServerThread extends Thread{
 		//private boolean isPaired=false;
+		
+		
 		
 		@Override
 		public void run() {
@@ -143,6 +170,7 @@ public class BluetoothServer {
 						os = devConn.openDataOutputStream();
 					} catch (IOException e) {
 						e.printStackTrace();
+						closeConnection();
 						continue;
 					}
 					
@@ -154,17 +182,13 @@ public class BluetoothServer {
 						System.out.println("Receiving pairing code: "+pairing);
 						if(!pairing.equals(paringCode)){
 							System.out.println("Pairing un-match!");
-							is.close();
-							os.close();
-							devConn.close();
-							is = null;
-							os = null;
-							devConn = null;
+							closeConnection();
 							continue;
 						}						
 					} catch (IOException e) {
 						//TODO may need to add staff here.
-						System.out.println("Connection loss");
+						System.out.println("Connection Error");
+						closeConnection();
 						e.printStackTrace();
 						continue;
 					}

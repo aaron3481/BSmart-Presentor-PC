@@ -2,6 +2,8 @@ package bsp.test;
 
 import java.util.Properties;
 
+import javax.swing.JOptionPane;
+
 public class B {
 	
 	public void print(){
@@ -34,9 +36,13 @@ public class B {
 	public static void main(String[]ak){
 		
 		Properties sysProps = System.getProperties();
-	    System.out.println(sysProps.getProperty("os.name"));
+	    System.out.println(sysProps.getProperty("user.dir"));
 	    System.out.println(sysProps.getProperty("os.version"));
 		
+	    JOptionPane.showMessageDialog(null,
+				"Cannot initialnize local device. Program exiting...",
+				"Connection Manager Error", JOptionPane.ERROR_MESSAGE);
+	    
 		/*String c = "<@Slide-1>\naleijf  kejlwej fke\n\n\njw j\njkjejesl jkekfff jjfjfl aej\n</@Slide>\n<@Slide-25>\nWa kaka\n</@Slide>\n";
 		
 		B b = new B();

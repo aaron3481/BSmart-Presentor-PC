@@ -4,7 +4,6 @@ import bsp.connection.KeyCode;
 
 import java.awt.AWTException;
 import java.awt.Robot;
-import java.io.IOException;
 
 public class SystemController {
 	private Robot robot;
@@ -70,25 +69,31 @@ public class SystemController {
 			break;
 		case KeyCode.EXIT:
 			robot.keyPress(KeyCode.KEY_ESC);
+			robot.keyRelease(KeyCode.KEY_ESC);
 			break;
 		case KeyCode.SWITCH_WINDOW:
-			System.out.println("Switch");	
-			
-			robot.keyPress(KeyCode.KEY_CTRL);
-			robot.keyPress(KeyCode.KEY_ALT);
-			robot.keyPress(KeyCode.KEY_TAB);
-			
-			
-			
-			
-			/*try {
-				String dd = "cmd /c D:\\app\\explorer.lnk";
-				
-				Runtime.getRuntime().exec(dd);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
+			if(osName.contains("Windows")){
+				if(osVersion.equals("6.2")){
+					//Win8
+					String userDir = System.getProperty("user.dir");
+					if(userDir.contains(" ")){
+						System.out.println("Install location contain a SPACE,not work");
+						return;
+					}
+					try{
+						Runtime.getRuntime().exec("cmd /c "+userDir+"\\app\\explorer.lnk");
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}else{
+					robot.keyPress(KeyCode.KEY_CTRL);
+					robot.keyPress(KeyCode.KEY_ALT);
+					robot.keyPress(KeyCode.KEY_TAB);
+					robot.keyRelease(KeyCode.KEY_TAB);
+					robot.keyRelease(KeyCode.KEY_ALT);
+					robot.keyRelease(KeyCode.KEY_CTRL);
+				}
+			}
 			break;
 		case KeyCode.ENTER:
 			robot.keyPress(KeyCode.KEY_ENTER);

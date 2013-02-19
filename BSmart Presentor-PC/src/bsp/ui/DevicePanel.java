@@ -6,12 +6,12 @@
 
 package bsp.ui;
 
-import java.util.Vector;
+/*import java.util.Vector;
 
 import bsp.connection.Bluetooth;
 
 import javax.bluetooth.RemoteDevice;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableModel;*/
 
 /**
  * 
@@ -145,7 +145,7 @@ public class DevicePanel extends javax.swing.JPanel {
 
 	private void dB_RefreshActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
-		dB_Refresh.setEnabled(false);
+		/*dB_Refresh.setEnabled(false);
 		bt.startInq(bt);
 		devices = bt.getDevices();
 		dB_Refresh.setEnabled(true);
@@ -169,19 +169,19 @@ public class DevicePanel extends javax.swing.JPanel {
 				t_Model.removeRow(t_Model.getRowCount()-1);
 				//tableRowCount--;
 			}
-		}
+		}*/
 
 		//System.out.println(devices.size());
 	}
 
 	private void myInitComponents() {
-		try {
+		/*try {
 			bt = new Bluetooth();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		t_Model = (DefaultTableModel) t_Device.getModel();
+		t_Model = (DefaultTableModel) t_Device.getModel();*/
 	}
 
 	//GEN-BEGIN:variables
@@ -194,7 +194,7 @@ public class DevicePanel extends javax.swing.JPanel {
 	private javax.swing.JTable t_Device;
 	// End of variables declaration//GEN-END:variables
 
-	private Bluetooth bt;
+	/*private Bluetooth bt;
 	private Vector<RemoteDevice> devices;
-	private DefaultTableModel t_Model;
+	private DefaultTableModel t_Model;*/
 }

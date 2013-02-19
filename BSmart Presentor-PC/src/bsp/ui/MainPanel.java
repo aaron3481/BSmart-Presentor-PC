@@ -316,7 +316,8 @@ public class MainPanel extends javax.swing.JPanel {
 
 	private void b_TimeFrameActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
-
+		bsp.connection.BluetoothServer bs = new bsp.connection.BluetoothServer();
+		bs.startService();
 	}
 
 	private void b_LoadActionPerformed(java.awt.event.ActionEvent evt) {
