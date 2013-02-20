@@ -96,6 +96,7 @@ public class MainFrame extends javax.swing.JFrame {
 		// TODO add your handling code here:
 		mMFile_FL.setEnabled(true);
 		mMFile_BL.setEnabled(false);
+		devicePanel.updateRecord();
 		remove(mainPanel);
 		repaint();
 		add(devicePanel);
