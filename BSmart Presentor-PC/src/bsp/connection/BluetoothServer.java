@@ -92,13 +92,13 @@ public class BluetoothServer {
 	public static void main(String[]arg){
 		BluetoothServer se = new BluetoothServer();
 		se.startService();
-		try {
+		/*try {
 			Thread.sleep(2000);
 			se.notifier.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 	}
 	
 	private String generateCode(){

@@ -2,7 +2,6 @@ package bsp.ui.animation;
 
 import java.awt.Dimension;
 import java.awt.Frame;
-
 import javax.swing.JFrame;
 
 public class WindowAnimation {

@@ -38,6 +38,10 @@ public class Record {
 	public int getNoteCount() {
 		return noteCount;
 	}
+	
+	public Slide getSlide(int index){
+		return slides[index];
+	}
 
 	public void addSlide(int slide, int numClick, int cumulateClick, String note) {
 		assert (slide <= slideCount && slide > 0);

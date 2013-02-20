@@ -34,7 +34,8 @@ public class MainFrame extends javax.swing.JFrame {
 		devicePanel = new bsp.ui.DevicePanel();
 		mainMenu = new javax.swing.JMenuBar();
 		mMFile = new javax.swing.JMenu();
-		mMFile_Open = new javax.swing.JMenuItem();
+		mMFile_FL = new javax.swing.JMenuItem();
+		mMFile_BL = new javax.swing.JMenuItem();
 		mMAbout = new javax.swing.JMenu();
 		devicePanel.getAccessibleContext().setAccessibleParent(this);
 
@@ -50,15 +51,25 @@ public class MainFrame extends javax.swing.JFrame {
 
 		mMFile.setText("File");
 
-		mMFile_Open.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
-				java.awt.event.KeyEvent.VK_O, 0));
-		mMFile_Open.setText("Open");
-		mMFile_Open.addActionListener(new java.awt.event.ActionListener() {
+		mMFile_FL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+				java.awt.event.KeyEvent.VK_F, 0));
+		mMFile_FL.setText("File Loader");
+		mMFile_FL.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				mMFile_OpenActionPerformed(evt);
+				mMFile_FLActionPerformed(evt);
 			}
 		});
-		mMFile.add(mMFile_Open);
+		mMFile.add(mMFile_FL);
+
+		mMFile_BL.setAccelerator(javax.swing.KeyStroke.getKeyStroke(
+				java.awt.event.KeyEvent.VK_B, 0));
+		mMFile_BL.setText("Bluetooth Server");
+		mMFile_BL.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				mMFile_BLActionPerformed(evt);
+			}
+		});
+		mMFile.add(mMFile_BL);
 
 		mainMenu.add(mMFile);
 
@@ -81,10 +92,24 @@ public class MainFrame extends javax.swing.JFrame {
 	}// </editor-fold>
 	//GEN-END:initComponents
 
-	private void mMFile_OpenActionPerformed(java.awt.event.ActionEvent evt) {
-		add(mainPanel);
+	private void mMFile_BLActionPerformed(java.awt.event.ActionEvent evt) {
+		// TODO add your handling code here:
+		mMFile_FL.setEnabled(true);
+		mMFile_BL.setEnabled(false);
+		remove(mainPanel);
 		repaint();
+		add(devicePanel);
 		pack();
+	}
+
+	private void mMFile_FLActionPerformed(java.awt.event.ActionEvent evt) {
+		mMFile_FL.setEnabled(false);
+		mMFile_BL.setEnabled(true);
+		remove(devicePanel);
+		repaint();
+		add(mainPanel);
+		pack();
+
 	}
 
 	private void formWindowStateChanged(java.awt.event.WindowEvent evt) {
@@ -94,24 +119,27 @@ public class MainFrame extends javax.swing.JFrame {
 					previousScreen.getHeight());
 		} else if (this.getState() == Frame.ICONIFIED) {
 			this.previousScreen = this.getPreferredSize();
+			WindowAnimation.windowMinimize(this, 0);
 		}
 	}
-	
-	private void formComponentRemoved(java.awt.event.ContainerEvent evt){
+
+	private void formComponentRemoved(java.awt.event.ContainerEvent evt) {
 		//TODO Editing later;
 	}
 
 	// Other initialisations that not in initComponets()
 	private void myInitComponents() {
-		
+
 		System.out.println(System.getProperty("os.name"));
-		
-		this.getContentPane().addContainerListener(new java.awt.event.ContainerAdapter() {
-			public void componentRemoved(java.awt.event.ContainerEvent evt) {
-				formComponentRemoved(evt);
-			}
-		});
-		
+
+		this.getContentPane().addContainerListener(
+				new java.awt.event.ContainerAdapter() {
+					public void componentRemoved(
+							java.awt.event.ContainerEvent evt) {
+						formComponentRemoved(evt);
+					}
+				});
+
 		screen = Toolkit.getDefaultToolkit().getScreenSize();
 		frameSize = this.getPreferredSize();
 		windowSize = GraphicsEnvironment.getLocalGraphicsEnvironment()
@@ -123,8 +151,8 @@ public class MainFrame extends javax.swing.JFrame {
 		mainPanel.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
 		devicePanel.setBounds(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
 
-		add(devicePanel);
-		
+		//add(devicePanel);
+
 		pack();
 
 	}
@@ -146,7 +174,8 @@ public class MainFrame extends javax.swing.JFrame {
 	protected bsp.ui.DevicePanel devicePanel;
 	private javax.swing.JMenu mMAbout;
 	private javax.swing.JMenu mMFile;
-	private javax.swing.JMenuItem mMFile_Open;
+	private javax.swing.JMenuItem mMFile_BL;
+	private javax.swing.JMenuItem mMFile_FL;
 	private javax.swing.JMenuBar mainMenu;
 	protected bsp.ui.MainPanel mainPanel;
 	// End of variables declaration//GEN-END:variables

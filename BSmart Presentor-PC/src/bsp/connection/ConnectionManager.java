@@ -2,6 +2,10 @@ package bsp.connection;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
 import javax.bluetooth.DiscoveryAgent;
 import javax.bluetooth.LocalDevice;
 import javax.bluetooth.UUID;
@@ -23,6 +27,7 @@ public class ConnectionManager {
 	private Record record;
 	private PropertyChangeSupport changeSupport;
 	private StreamConnection devConn;
+	private StreamConnectionNotifier notifier;
 
 	// Public methods
 	public ConnectionManager() {
@@ -42,6 +47,7 @@ public class ConnectionManager {
 		isp = null;
 		record = null;
 		devConn = null;
+		notifier = null;
 		changeSupport = new PropertyChangeSupport(this);
 	}
 
@@ -61,9 +67,23 @@ public class ConnectionManager {
 	public String getCode() {
 		return code;
 	}
-	
-	public boolean getOnStatus(){
+
+	public boolean getOnStatus() {
 		return isOn;
+	}
+	
+	public String getlocName(){
+		if(localDev==null)
+			return null;
+		else
+			return localDev.getFriendlyName();
+	}
+	
+	public String getlocAddr(){
+		if(localDev==null)
+			return null;
+		else
+			return localDev.getBluetoothAddress();
 	}
 
 	public synchronized void addPropertyChangeListener(
@@ -90,6 +110,27 @@ public class ConnectionManager {
 			server.start();
 		}
 	}
+	
+	public boolean sendRecord(){
+		if(devConn!=null){
+			try {
+				DataOutputStream os = devConn.openDataOutputStream();
+				os.write(Packer.getRecordHeaderPak(record));
+				os.flush();
+				for(int i=0;i<record.getSlideCount();i++){
+					os.write(Packer.getSlidePak(record.getSlide(i)));
+					os.flush();
+				}
+				return true;
+			} catch (IOException e) {
+				e.printStackTrace();
+				return false;
+			}
+		}
+		return false;
+	}
+	
+	
 
 	// Private methods
 	private String generateCode() {
@@ -106,7 +147,6 @@ public class ConnectionManager {
 		private UUID SERVER_UUID = new UUID("00001101CADFFFDC194DCCAB3816FFBE",
 				false);
 		private String URL;
-		private StreamConnectionNotifier notifier;
 		private DataInputStream is;
 
 		public ServerThread() throws Exception {
@@ -141,8 +181,10 @@ public class ConnectionManager {
 								.println("Notifier accepting error. Drop this connection"
 										+ "Connection Manager - ServerThread Error");
 					} else {
+						isEndByUser = false;
 						server = null;
 						serverStatus = false;
+						devConn = null;
 						changeSupport.firePropertyChange("SERVER_STATUS",
 								new Boolean(!serverStatus), new Boolean(
 										serverStatus));
@@ -162,7 +204,16 @@ public class ConnectionManager {
 						continue;
 					}
 					try {
-						String pc = is.readUTF();
+
+						byte[] data = new byte[6];
+						is.read(data);
+
+						// Since C/C++ packing byte[] in little_endian, so it
+						// need to convert.
+						ByteBuffer buff = ByteBuffer.wrap(data);
+						buff.order(ByteOrder.LITTLE_ENDIAN);
+
+						String pc = new String(buff.array());
 						if (!pc.equals(code)) {
 							devConn = null;
 							continue;
@@ -193,9 +244,65 @@ public class ConnectionManager {
 	class ISProcThread extends Thread {
 		private DataInputStream is;
 		private bsp.connection.SystemController col;
-		public ISProcThread() throws Exception{
+
+		public ISProcThread() throws Exception {
 			super();
 			is = devConn.openDataInputStream();
+			col = new bsp.connection.SystemController();
+			changeSupport.firePropertyChange("ISP_STATUS", new Boolean(false),
+					new Boolean(true));
+		}
+
+		private void decode(String command) {
+			int action;
+			int arg1;
+			int index = command.indexOf("-");
+
+			action = Integer.parseInt(command.substring(0, index));
+			arg1 = Integer.parseInt(command.substring(index + 1));
+
+			col.perform(record.getType(), action, arg1, record.getSlideCount());
+		}
+
+		@Override
+		public void run() {
+			ISProcThread thisT = (ISProcThread) Thread.currentThread();
+			byte[] data = new byte[256];
+			ByteBuffer buff;
+			
+			while (isp == thisT) {
+				String command = "";
+				try {
+					
+					int readlen = is.read(data);
+					buff = ByteBuffer.wrap(data, 0,readlen);
+					buff.order(ByteOrder.LITTLE_ENDIAN);
+					command = new String(buff.array());
+					
+				} catch (Exception e) {
+					// Connection error
+					devConn = null;
+					isp = null;
+					changeSupport.firePropertyChange("ISP_STATUS", new Boolean(
+							true), new Boolean(false));
+					continue;
+				}
+
+				if (command.equals("CONN_CLOSE")) {
+					try {
+						notifier.close(); // this cause the ServerThread close;
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					isp = null;
+					changeSupport.firePropertyChange("ISP_STATUS", new Boolean(
+							true), new Boolean(false));
+					continue;
+				} else {
+					decode(command);
+				}
+
+			}
 		}
 	}
 

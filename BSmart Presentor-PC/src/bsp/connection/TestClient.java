@@ -1,6 +1,7 @@
 package bsp.connection;
 
 import java.io.DataOutputStream;
+import java.nio.ByteOrder;
 //import java.io.IOException;
 import java.util.Vector;
 
@@ -60,7 +61,11 @@ public class TestClient implements DiscoveryListener {
 			
 			dos = con.openDataOutputStream();
 			
-			dos.writeUTF(paringCode);
+			byte[] data = paringCode.getBytes();
+			java.nio.ByteBuffer buff = java.nio.ByteBuffer.wrap(data);
+			buff.order(ByteOrder.LITTLE_ENDIAN);
+			
+			dos.write(buff.array());
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,7 +73,10 @@ public class TestClient implements DiscoveryListener {
 	}
 	
 	public void sendCommand(String com) throws Exception{
-		dos.writeUTF(com);
+		byte[] data = com.getBytes();
+		java.nio.ByteBuffer buff = java.nio.ByteBuffer.wrap(data);
+		buff.order(ByteOrder.LITTLE_ENDIAN);
+		dos.write(buff.array());
 		dos.flush();
 	}
 
