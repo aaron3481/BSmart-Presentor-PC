@@ -76,7 +76,7 @@ public class TestClient implements DiscoveryListener {
 		byte[] data = com.getBytes();
 		java.nio.ByteBuffer buff = java.nio.ByteBuffer.wrap(data);
 		buff.order(ByteOrder.LITTLE_ENDIAN);
-		dos.write(buff.array());
+		dos.write(buff.array());  
 		dos.flush();
 	}
 
