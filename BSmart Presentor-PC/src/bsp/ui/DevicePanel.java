@@ -285,12 +285,15 @@ public class DevicePanel extends javax.swing.JPanel {
 		// TODO add your handling code here:
 		jButton1.setEnabled(true);
 		jButton2.setEnabled(false);
+		cm.close();
 	}
 
 	private void CMPropChange(PropertyChangeEvent evt) {
 		String event = evt.getPropertyName();
 		boolean newStatus = (Boolean) evt.getNewValue();
-
+		
+		System.out.println(event);
+		
 		if (event.equals("SERVER_STATUS")) {
 			if (newStatus) {
 				jLabel7.setText("On");
@@ -304,9 +307,11 @@ public class DevicePanel extends javax.swing.JPanel {
 			if (newStatus) {
 				jLabel9.setText("Connected");
 				jLabel9.setBackground(new java.awt.Color(153, 255, 153));
+				jButton2.setEnabled(false);
 			} else {
 				jLabel9.setText("Disconnected");
 				jLabel9.setBackground(new java.awt.Color(255, 102, 102));
+				jButton2.setEnabled(true);
 			}
 		}
 	}

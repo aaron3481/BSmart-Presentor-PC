@@ -28,11 +28,14 @@ public class ConnectionManager {
 	private PropertyChangeSupport changeSupport;
 	private StreamConnection devConn;
 	private StreamConnectionNotifier notifier;
+	private DataInputStream is;
+	private DataOutputStream os;
 
 	// Public methods
 	public ConnectionManager() {
 		try {
 			localDev = LocalDevice.getLocalDevice();
+			localDev.setDiscoverable(DiscoveryAgent.GIAC);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
 					"Cannot initialnize local device. Program exiting...",
@@ -48,6 +51,8 @@ public class ConnectionManager {
 		record = null;
 		devConn = null;
 		notifier = null;
+		is = null;
+		os = null;
 		changeSupport = new PropertyChangeSupport(this);
 	}
 
@@ -111,10 +116,19 @@ public class ConnectionManager {
 		}
 	}
 
+	public void close() {
+		try {
+			isEndByUser = true;
+			notifier.close();
+		} catch (IOException e) {
+			// System.out.println(123123123);
+		}
+
+	}
+
 	public boolean sendRecord() {
 		if (devConn != null) {
 			try {
-				DataOutputStream os = devConn.openDataOutputStream();
 				os.write(Packer.getRecordHeaderPak(record));
 				os.flush();
 				for (int i = 0; i < record.getSlideCount(); i++) {
@@ -145,13 +159,12 @@ public class ConnectionManager {
 		private UUID SERVER_UUID = new UUID("00001101CADFFFDC194DCCAB3816FFBE",
 				false);
 		private String URL;
-		private DataInputStream is;
 
 		public ServerThread() throws Exception {
 			super();
 			URL = "btspp://localhost:" + SERVER_UUID.toString()
 					+ ";name=BSPServer" + ";authorize=false";
-			localDev.setDiscoverable(DiscoveryAgent.GIAC);
+			
 		}
 
 		@Override
@@ -194,6 +207,7 @@ public class ConnectionManager {
 					devConn = conn;
 					try {
 						is = devConn.openDataInputStream();
+						os = devConn.openDataOutputStream();
 					} catch (Exception e) {
 						System.err
 								.println("Cannot open data input stream. Drop this connection"
@@ -212,11 +226,12 @@ public class ConnectionManager {
 						buff.order(ByteOrder.LITTLE_ENDIAN);
 
 						String pc = new String(buff.array());
+						System.out.println(pc.length());
 						if (!pc.equals(code)) {
+							System.out.println(pc.length() + "eeee");
 							devConn = null;
 							continue;
 						}
-						is.close();
 					} catch (Exception e) {
 						System.err.println("Paring Error."
 								+ "Connection Manager - ServerThread Error");
@@ -228,6 +243,7 @@ public class ConnectionManager {
 						isp = new ISProcThread();
 					} catch (Exception e) {
 						devConn = null;
+						e.printStackTrace();
 						continue;
 					}
 					isp.start();
@@ -240,24 +256,24 @@ public class ConnectionManager {
 	}
 
 	class ISProcThread extends Thread {
-		private DataInputStream is;
 		private bsp.connection.SystemController col;
 
 		public ISProcThread() throws Exception {
 			super();
-			is = devConn.openDataInputStream();
 			col = new bsp.connection.SystemController();
 			changeSupport.firePropertyChange("ISP_STATUS", new Boolean(false),
 					new Boolean(true));
+			System.out.println("Init. ISP");
 		}
 
 		private void decode(String command) {
 			int action;
-			int arg1;
+			int arg1 = 0;
 			int index = command.indexOf("-");
-
+			System.out.println(command);
 			action = Integer.parseInt(command.substring(0, index));
-			arg1 = Integer.parseInt(command.substring(index + 1));
+			if (index != command.length() - 1)
+				arg1 = Integer.parseInt(command.substring(index + 1));
 			if (record != null)
 				col.perform(record.getType(), action, arg1,
 						record.getSlideCount());
@@ -275,14 +291,16 @@ public class ConnectionManager {
 			while (isp == thisT) {
 				String command = "";
 				try {
-
 					int readlen = is.read(data);
-					buff = ByteBuffer.wrap(data, 0, readlen);
+					byte[] copy = new byte[readlen];
+					System.arraycopy(data, 0, copy, 0, readlen);
+					buff = ByteBuffer.wrap(copy);
 					buff.order(ByteOrder.LITTLE_ENDIAN);
 					command = new String(buff.array());
 
 				} catch (Exception e) {
 					// Connection error
+					e.printStackTrace();
 					devConn = null;
 					isp = null;
 					changeSupport.firePropertyChange("ISP_STATUS", new Boolean(

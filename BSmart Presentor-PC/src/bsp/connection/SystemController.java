@@ -18,6 +18,17 @@ public class SystemController {
 	
 	public void perform(String fileType, int action, int arg1, int arg2){
 		switch(action){
+		case KeyCode.RESTART:
+			if(fileType!=null){
+				if(osName.contains("Windows")){
+					robot.keyPress(KeyCode.KEY_ESC);
+					robot.keyRelease(KeyCode.KEY_ESC);
+					robot.keyPress(KeyCode.KEY_F5);
+					robot.keyRelease(KeyCode.KEY_F5);
+				}
+				
+			}
+			break;
 		case KeyCode.NEXT_SLIDE:
 			if(fileType!=null){
 				if(osName.contains("Windows")){
