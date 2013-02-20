@@ -268,7 +268,11 @@ public class DevicePanel extends javax.swing.JPanel {
 								.addContainerGap()));
 	}// </editor-fold>
 		// GEN-END:initComponents
-
+	
+	public void updateRecord(){
+		cm.updateRecord();
+	}
+	
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
 		cm.startServer();
@@ -309,6 +313,7 @@ public class DevicePanel extends javax.swing.JPanel {
 
 	private void myInitComponents() {
 		cm = new bsp.connection.ConnectionManager();
+		cm.updateRecord();
 		cm.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent evt) {

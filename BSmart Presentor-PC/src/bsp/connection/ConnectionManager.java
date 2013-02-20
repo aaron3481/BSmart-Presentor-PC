@@ -71,16 +71,16 @@ public class ConnectionManager {
 	public boolean getOnStatus() {
 		return isOn;
 	}
-	
-	public String getlocName(){
-		if(localDev==null)
+
+	public String getlocName() {
+		if (localDev == null)
 			return null;
 		else
 			return localDev.getFriendlyName();
 	}
-	
-	public String getlocAddr(){
-		if(localDev==null)
+
+	public String getlocAddr() {
+		if (localDev == null)
 			return null;
 		else
 			return localDev.getBluetoothAddress();
@@ -110,14 +110,14 @@ public class ConnectionManager {
 			server.start();
 		}
 	}
-	
-	public boolean sendRecord(){
-		if(devConn!=null){
+
+	public boolean sendRecord() {
+		if (devConn != null) {
 			try {
 				DataOutputStream os = devConn.openDataOutputStream();
 				os.write(Packer.getRecordHeaderPak(record));
 				os.flush();
-				for(int i=0;i<record.getSlideCount();i++){
+				for (int i = 0; i < record.getSlideCount(); i++) {
 					os.write(Packer.getSlidePak(record.getSlide(i)));
 					os.flush();
 				}
@@ -129,8 +129,6 @@ public class ConnectionManager {
 		}
 		return false;
 	}
-	
-	
 
 	// Private methods
 	private String generateCode() {
@@ -260,8 +258,12 @@ public class ConnectionManager {
 
 			action = Integer.parseInt(command.substring(0, index));
 			arg1 = Integer.parseInt(command.substring(index + 1));
-
-			col.perform(record.getType(), action, arg1, record.getSlideCount());
+			if (record != null)
+				col.perform(record.getType(), action, arg1,
+						record.getSlideCount());
+			else {
+				col.perform(null, action, arg1, 0);
+			}
 		}
 
 		@Override
@@ -269,16 +271,16 @@ public class ConnectionManager {
 			ISProcThread thisT = (ISProcThread) Thread.currentThread();
 			byte[] data = new byte[256];
 			ByteBuffer buff;
-			
+
 			while (isp == thisT) {
 				String command = "";
 				try {
-					
+
 					int readlen = is.read(data);
-					buff = ByteBuffer.wrap(data, 0,readlen);
+					buff = ByteBuffer.wrap(data, 0, readlen);
 					buff.order(ByteOrder.LITTLE_ENDIAN);
 					command = new String(buff.array());
-					
+
 				} catch (Exception e) {
 					// Connection error
 					devConn = null;
