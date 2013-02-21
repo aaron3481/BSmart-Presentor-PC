@@ -164,7 +164,7 @@ public class ConnectionManager {
 			super();
 			URL = "btspp://localhost:" + SERVER_UUID.toString()
 					+ ";name=BSPServer" + ";authorize=false";
-			
+			System.out.println(URL);
 		}
 
 		@Override
@@ -172,6 +172,7 @@ public class ConnectionManager {
 			ServerThread thisT = (ServerThread) Thread.currentThread();
 			try {
 				notifier = (StreamConnectionNotifier) Connector.open(URL);
+				
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null,
 						"Cannot Open the server. Please try again later",
@@ -186,6 +187,7 @@ public class ConnectionManager {
 				StreamConnection conn = null;
 				try {
 					conn = notifier.acceptAndOpen();
+					System.out.println("Has Incoming Connection");
 				} catch (Exception e) {
 					if (!isEndByUser) {
 						System.err
