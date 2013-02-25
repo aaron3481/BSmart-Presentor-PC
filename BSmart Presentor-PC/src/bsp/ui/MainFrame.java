@@ -124,22 +124,22 @@ public class MainFrame extends javax.swing.JFrame {
 		}
 	}
 
-	private void formComponentRemoved(java.awt.event.ContainerEvent evt) {
+	/*private void formComponentRemoved(java.awt.event.ContainerEvent evt) {
 		//TODO Editing later;
-	}
+	}*/
 
 	// Other initialisations that not in initComponets()
 	private void myInitComponents() {
 
-		System.out.println(System.getProperty("os.name"));
+		//System.out.println(System.getProperty("os.name"));
 
-		this.getContentPane().addContainerListener(
+		/*this.getContentPane().addContainerListener(
 				new java.awt.event.ContainerAdapter() {
 					public void componentRemoved(
 							java.awt.event.ContainerEvent evt) {
 						formComponentRemoved(evt);
 					}
-				});
+				});*/
 
 		screen = Toolkit.getDefaultToolkit().getScreenSize();
 		frameSize = this.getPreferredSize();

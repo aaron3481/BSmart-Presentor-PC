@@ -30,17 +30,19 @@ public class ConnectionManager {
 	private StreamConnectionNotifier notifier;
 	private DataInputStream is;
 	private DataOutputStream os;
-
+	
+	//private static ConnectionManager cm;
+	
 	// Public methods
 	public ConnectionManager() {
 		try {
 			localDev = LocalDevice.getLocalDevice();
-			localDev.setDiscoverable(DiscoveryAgent.GIAC);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
 					"Cannot initialnize local device. Program exiting...",
 					"Connection Manager Error", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
+			//e.printStackTrace();
 		}
 		isOn = LocalDevice.isPowerOn();
 		serverStatus = false;
@@ -54,6 +56,7 @@ public class ConnectionManager {
 		is = null;
 		os = null;
 		changeSupport = new PropertyChangeSupport(this);
+		//cm = this;
 	}
 
 	/**
@@ -76,7 +79,11 @@ public class ConnectionManager {
 	public boolean getOnStatus() {
 		return isOn;
 	}
-
+	
+	/*public static ConnectionManager getCM(){
+		return cm;
+	}
+*/
 	public String getlocName() {
 		if (localDev == null)
 			return null;
@@ -104,6 +111,7 @@ public class ConnectionManager {
 	public void startServer() {
 		if (!serverStatus) {
 			try {
+				localDev.setDiscoverable(DiscoveryAgent.GIAC);
 				server = new ServerThread();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -130,10 +138,11 @@ public class ConnectionManager {
 		if (devConn != null) {
 			try {
 				os.write(Packer.getRecordHeaderPak(record));
-				os.flush();
+				
+				//os.flush();
 				for (int i = 0; i < record.getSlideCount(); i++) {
 					os.write(Packer.getSlidePak(record.getSlide(i)));
-					os.flush();
+					//os.flush();
 				}
 				return true;
 			} catch (IOException e) {
@@ -217,7 +226,8 @@ public class ConnectionManager {
 						devConn = null;
 						continue;
 					}
-					try {
+					sendRecord();
+					/*try {
 
 						byte[] data = new byte[6];
 						is.read(data);
@@ -239,7 +249,7 @@ public class ConnectionManager {
 								+ "Connection Manager - ServerThread Error");
 						devConn = null;
 						continue;
-					}
+					}*/
 
 					try {
 						isp = new ISProcThread();
@@ -287,7 +297,7 @@ public class ConnectionManager {
 		@Override
 		public void run() {
 			ISProcThread thisT = (ISProcThread) Thread.currentThread();
-			byte[] data = new byte[256];
+			byte[] data = new byte[128];
 			ByteBuffer buff;
 
 			while (isp == thisT) {

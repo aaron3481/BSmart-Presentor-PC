@@ -26,4 +26,15 @@ public class KeyCode {
 	public static final int SWITCH_WINDOW = 0x0000FFF4;
 	public static final int GO_TO_SLIDE = 0x0000FFF5;	
 	public static final int ENTER = 0x0000FFF6;
+	
+	
+	public static void main(String[]args){
+		System.out.println(NEXT_SLIDE);
+		System.out.println(PREVIOUS_SLIDE);
+		System.out.println(RESTART);
+		System.out.println(EXIT);
+		System.out.println(SWITCH_WINDOW);
+		System.out.println(GO_TO_SLIDE);
+		System.out.println(ENTER);
+	}
 }

@@ -316,8 +316,8 @@ public class MainPanel extends javax.swing.JPanel {
 
 	private void b_TimeFrameActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
-		bsp.connection.BluetoothServer bs = new bsp.connection.BluetoothServer();
-		bs.startService();
+		//bsp.connection.BluetoothServer bs = new bsp.connection.BluetoothServer();
+		//bs.startService();
 	}
 
 	private void b_LoadActionPerformed(java.awt.event.ActionEvent evt) {
@@ -392,11 +392,7 @@ public class MainPanel extends javax.swing.JPanel {
 	}
 
 	private void b_SendActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-		javax.swing.JFrame parent = (javax.swing.JFrame) this.getRootPane()
-				.getParent();
-		parent.remove(this);
-		parent.repaint();
+		//bsp.connection.ConnectionManager.getCM().sendRecord();
 	}
 
 	private void b_OpenActionPerformed(java.awt.event.ActionEvent evt) {
