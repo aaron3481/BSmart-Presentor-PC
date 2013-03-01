@@ -2,6 +2,10 @@ package bsp.connection;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+//import java.io.File;
+//import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -30,6 +34,7 @@ public class ConnectionManager {
 	private StreamConnectionNotifier notifier;
 	private DataInputStream is;
 	private DataOutputStream os;
+	private boolean isDiscoveryAble;
 	
 	//private static ConnectionManager cm;
 	
@@ -56,6 +61,7 @@ public class ConnectionManager {
 		is = null;
 		os = null;
 		changeSupport = new PropertyChangeSupport(this);
+		isDiscoveryAble= false;
 		//cm = this;
 	}
 
@@ -64,8 +70,8 @@ public class ConnectionManager {
 	 * called.
 	 */
 	public void updateRecord() {
-		if (record == null)
-			record = Record.getInstance();
+		//if (record == null)
+		record = Record.getInstance();
 	}
 
 	public boolean getServerStatus() {
@@ -111,7 +117,10 @@ public class ConnectionManager {
 	public void startServer() {
 		if (!serverStatus) {
 			try {
-				localDev.setDiscoverable(DiscoveryAgent.GIAC);
+				if(!isDiscoveryAble){
+					localDev.setDiscoverable(DiscoveryAgent.GIAC);
+					isDiscoveryAble=true;
+				}
 				server = new ServerThread();
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -132,7 +141,7 @@ public class ConnectionManager {
 			// System.out.println(123123123);
 		}
 
-	}
+	}	
 
 	public boolean sendRecord() {
 		if (devConn != null) {
@@ -144,10 +153,40 @@ public class ConnectionManager {
 					os.write(Packer.getSlidePak(record.getSlide(i)));
 					//os.flush();
 				}
+				
+				String userDir = System.getProperty("user.dir") + "\\tempData";
+				for(int i=0;i<record.getSlideCount();i++){
+					String file = userDir + "\\s" + (i + 1) + ".png";
+					File nfile = new File(file);
+					int fileLen = (int)nfile.length();
+					ByteBuffer buffer = ByteBuffer.allocate(4+fileLen);
+					buffer.order(ByteOrder.LITTLE_ENDIAN);
+					buffer.putInt(fileLen);
+					//os.write(buffer.array());
+					System.out.println(fileLen);
+					FileInputStream in = new FileInputStream(nfile);
+					byte temp[] = new byte[2048];
+					int readLen=0;
+					while((readLen=in.read(temp))!=-1){
+						buffer.put(temp,0,readLen);
+					}
+					os.write(buffer.array());
+					os.flush();
+					Thread.sleep(600);
+					in.close();
+					//break;
+					
+				}
+				
+				
+				
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();
 				return false;
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		return false;

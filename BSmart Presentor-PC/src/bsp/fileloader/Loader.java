@@ -4,6 +4,7 @@ public class Loader {
 
 	protected Record record;
 	protected boolean isPrepare;
+	protected String path;
 
 	public String[] getProperty() {
 		// result[0] = file type;

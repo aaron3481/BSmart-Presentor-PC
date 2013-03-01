@@ -27,7 +27,7 @@ public class MainPanel extends javax.swing.JPanel {
 		initMyComponents();
 	}
 
-	// GEN-BEGIN:initComponents
+	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -50,7 +50,6 @@ public class MainPanel extends javax.swing.JPanel {
 		jSeparator1 = new javax.swing.JSeparator();
 		b_Load = new javax.swing.JButton();
 		b_TimeFrame = new javax.swing.JButton();
-		b_Send = new javax.swing.JButton();
 		jSeparator2 = new javax.swing.JSeparator();
 
 		propertyP.setPreferredSize(new java.awt.Dimension(315, 330));
@@ -200,7 +199,6 @@ public class MainPanel extends javax.swing.JPanel {
 		ll_Path.setText("File: ");
 
 		TF_Path.setEditable(false);
-		TF_Path.setText("Aaron Cai");
 
 		b_Open.setText("Open..");
 		b_Open.addActionListener(new java.awt.event.ActionListener() {
@@ -224,13 +222,6 @@ public class MainPanel extends javax.swing.JPanel {
 			}
 		});
 
-		b_Send.setText("Send");
-		b_Send.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				b_SendActionPerformed(evt);
-			}
-		});
-
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout
@@ -243,33 +234,27 @@ public class MainPanel extends javax.swing.JPanel {
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(TF_Path,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
-										191, Short.MAX_VALUE)
+										185, Short.MAX_VALUE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(b_Open).addContainerGap())
 				.addComponent(jSeparator1,
-						javax.swing.GroupLayout.DEFAULT_SIZE, 335,
+						javax.swing.GroupLayout.DEFAULT_SIZE, 315,
+						Short.MAX_VALUE)
+				.addComponent(jSeparator2,
+						javax.swing.GroupLayout.DEFAULT_SIZE, 315,
 						Short.MAX_VALUE)
 				.addGroup(
 						layout.createSequentialGroup()
-								.addContainerGap()
+								.addGap(55, 55, 55)
 								.addComponent(b_Load,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										103,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(b_Send,
-										javax.swing.GroupLayout.PREFERRED_SIZE,
-										77,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(
-										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(b_TimeFrame)
-								.addContainerGap(14, Short.MAX_VALUE))
-				.addComponent(jSeparator2,
-						javax.swing.GroupLayout.DEFAULT_SIZE, 335,
-						Short.MAX_VALUE));
+								.addContainerGap(55, Short.MAX_VALUE)));
 		layout.setVerticalGroup(layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(
@@ -293,7 +278,7 @@ public class MainPanel extends javax.swing.JPanel {
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-										298, Short.MAX_VALUE)
+										320, Short.MAX_VALUE)
 								.addComponent(jSeparator2,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										10,
@@ -308,11 +293,10 @@ public class MainPanel extends javax.swing.JPanel {
 														javax.swing.GroupLayout.PREFERRED_SIZE,
 														javax.swing.GroupLayout.DEFAULT_SIZE,
 														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addComponent(b_TimeFrame)
-												.addComponent(b_Send))
+												.addComponent(b_TimeFrame))
 								.addContainerGap()));
 	}// </editor-fold>
-		// GEN-END:initComponents
+	//GEN-END:initComponents
 
 	private void b_TimeFrameActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
@@ -389,10 +373,6 @@ public class MainPanel extends javax.swing.JPanel {
 		});
 
 		task.execute();
-	}
-
-	private void b_SendActionPerformed(java.awt.event.ActionEvent evt) {
-		//bsp.connection.ConnectionManager.getCM().sendRecord();
 	}
 
 	private void b_OpenActionPerformed(java.awt.event.ActionEvent evt) {
@@ -479,12 +459,11 @@ public class MainPanel extends javax.swing.JPanel {
 
 	}
 
-	// GEN-BEGIN:variables
+	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JTextField TF_Path;
 	private javax.swing.JButton b_Load;
 	private javax.swing.JButton b_Open;
-	private javax.swing.JButton b_Send;
 	private javax.swing.JButton b_TimeFrame;
 	private javax.swing.JFileChooser fileChooser;
 	private javax.swing.JSeparator jSeparator1;

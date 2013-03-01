@@ -163,16 +163,14 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Component id="jSeparator1" alignment="0" pref="315" max="32767" attributes="0"/>
+          <Component id="jSeparator2" alignment="0" pref="315" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
               <Component id="b_Load" min="-2" pref="103" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="b_Send" min="-2" pref="77" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
               <Component id="b_TimeFrame" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="14" max="32767" attributes="0"/>
+              <EmptySpace pref="55" max="32767" attributes="0"/>
           </Group>
-          <Component id="jSeparator2" alignment="0" pref="315" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -192,7 +190,6 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="b_Load" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="b_TimeFrame" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="b_Send" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -211,7 +208,6 @@
     <Component class="javax.swing.JTextField" name="TF_Path">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
-        <Property name="text" type="java.lang.String" value="Aaron Cai"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="b_Open">
@@ -241,14 +237,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_TimeFrameActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="b_Send">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Send"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_SendActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JSeparator" name="jSeparator2">

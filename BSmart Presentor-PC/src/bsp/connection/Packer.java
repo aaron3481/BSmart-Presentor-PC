@@ -6,10 +6,8 @@ import bsp.fileloader.Slide;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import javax.imageio.ImageIO;
@@ -36,22 +34,24 @@ public class Packer {
 		buffer.putInt(fileName.length());
 		buffer.put(fileName.getBytes());
 		buffer.putInt(slideNum);
-		System.out.println(buffer.array().length);
+		//System.out.println(buffer.array().length);
 		return buffer.array();
 	}
 
 	public static byte[] getSlidePak(Slide slide) {
 		String note = slide.getNote();
-		ByteBuffer buffer = ByteBuffer.allocate(8 + note.length());
+		//System.out.print(note.length()+"\t"+note.getBytes().length);
+		ByteBuffer buffer = ByteBuffer.allocate(8 + note.getBytes().length);
+		//System.out.println("\t"+buffer.limit());
 		buffer.order(ByteOrder.LITTLE_ENDIAN);
-
+		
 		buffer.putInt(slide.getNumClick());
-		buffer.putInt(note.length());
+		buffer.putInt(note.getBytes().length);
 		if (note.length() != 0)
 			buffer.put(note.getBytes());
 		
-		System.out.println(buffer.array().length);
-
+		//System.out.println(buffer.array().length);
+		
 		return buffer.array();
 	}
 
