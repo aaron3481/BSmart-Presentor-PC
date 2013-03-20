@@ -28,7 +28,7 @@ public class DevicePanel extends javax.swing.JPanel {
 		myInitComponents();
 	}
 
-	// GEN-BEGIN:initComponents
+	//GEN-BEGIN:initComponents
 	// <editor-fold defaultstate="collapsed" desc="Generated Code">
 	private void initComponents() {
 
@@ -47,6 +47,8 @@ public class DevicePanel extends javax.swing.JPanel {
 		jLabel10 = new javax.swing.JLabel();
 		jLabel11 = new javax.swing.JLabel();
 		jSeparator2 = new javax.swing.JSeparator();
+		jTextField1 = new javax.swing.JTextField();
+		jButton3 = new javax.swing.JButton();
 
 		setPreferredSize(new java.awt.Dimension(317, 430));
 
@@ -115,6 +117,15 @@ public class DevicePanel extends javax.swing.JPanel {
 				.createLineBorder(new java.awt.Color(51, 153, 255)));
 		jLabel11.setOpaque(true);
 
+		jTextField1.setText("0");
+
+		jButton3.setText("jButton3");
+		jButton3.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				jButton3ActionPerformed(evt);
+			}
+		});
+
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout
@@ -182,23 +193,31 @@ public class DevicePanel extends javax.swing.JPanel {
 								.addGroup(
 										layout.createParallelGroup(
 												javax.swing.GroupLayout.Alignment.LEADING)
-												.addGroup(
-														layout.createSequentialGroup()
-																.addComponent(
-																		jLabel10)
-																.addPreferredGap(
-																		javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-																		173,
-																		javax.swing.GroupLayout.PREFERRED_SIZE))
+												.addComponent(jLabel10)
 												.addGroup(
 														layout.createSequentialGroup()
 																.addGap(48, 48,
 																		48)
-																.addComponent(
-																		jLabel11,
-																		javax.swing.GroupLayout.PREFERRED_SIZE,
-																		207,
-																		javax.swing.GroupLayout.PREFERRED_SIZE)))
+																.addGroup(
+																		layout.createParallelGroup(
+																				javax.swing.GroupLayout.Alignment.LEADING)
+																				.addGroup(
+																						layout.createSequentialGroup()
+																								.addComponent(
+																										jTextField1,
+																										javax.swing.GroupLayout.PREFERRED_SIZE,
+																										68,
+																										javax.swing.GroupLayout.PREFERRED_SIZE)
+																								.addGap(18,
+																										18,
+																										18)
+																								.addComponent(
+																										jButton3))
+																				.addComponent(
+																						jLabel11,
+																						javax.swing.GroupLayout.PREFERRED_SIZE,
+																						207,
+																						javax.swing.GroupLayout.PREFERRED_SIZE))))
 								.addContainerGap(50, Short.MAX_VALUE))
 				.addComponent(jSeparator2,
 						javax.swing.GroupLayout.DEFAULT_SIZE, 317,
@@ -253,7 +272,17 @@ public class DevicePanel extends javax.swing.JPanel {
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-										64, Short.MAX_VALUE)
+										21, Short.MAX_VALUE)
+								.addGroup(
+										layout.createParallelGroup(
+												javax.swing.GroupLayout.Alignment.BASELINE)
+												.addComponent(
+														jTextField1,
+														javax.swing.GroupLayout.PREFERRED_SIZE,
+														javax.swing.GroupLayout.DEFAULT_SIZE,
+														javax.swing.GroupLayout.PREFERRED_SIZE)
+												.addComponent(jButton3))
+								.addGap(18, 18, 18)
 								.addComponent(jSeparator1,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										10,
@@ -267,12 +296,17 @@ public class DevicePanel extends javax.swing.JPanel {
 												.addComponent(jButton2))
 								.addContainerGap()));
 	}// </editor-fold>
-		// GEN-END:initComponents
-	
-	public void updateRecord(){
+	//GEN-END:initComponents
+
+	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
+		int t  = Integer.parseInt(jTextField1.getText());
+		cm.uwt(t);
+	}
+
+	public void updateRecord() {
 		cm.updateRecord();
 	}
-	
+
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {
 		// TODO add your handling code here:
 		cm.startServer();
@@ -291,9 +325,9 @@ public class DevicePanel extends javax.swing.JPanel {
 	private void CMPropChange(PropertyChangeEvent evt) {
 		String event = evt.getPropertyName();
 		boolean newStatus = (Boolean) evt.getNewValue();
-		
+
 		System.out.println(event);
-		
+
 		if (event.equals("SERVER_STATUS")) {
 			if (newStatus) {
 				jLabel7.setText("On");
@@ -331,10 +365,11 @@ public class DevicePanel extends javax.swing.JPanel {
 		jLabel11.setText(cm.getCode());
 	}
 
-	// GEN-BEGIN:variables
+	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;
+	private javax.swing.JButton jButton3;
 	private javax.swing.JLabel jLabel1;
 	private javax.swing.JLabel jLabel10;
 	private javax.swing.JLabel jLabel11;
@@ -348,6 +383,7 @@ public class DevicePanel extends javax.swing.JPanel {
 	private javax.swing.JLabel jLabel9;
 	private javax.swing.JSeparator jSeparator1;
 	private javax.swing.JSeparator jSeparator2;
+	private javax.swing.JTextField jTextField1;
 	// End of variables declaration//GEN-END:variables
 
 	private bsp.connection.ConnectionManager cm;

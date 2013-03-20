@@ -36,6 +36,9 @@ public class ConnectionManager {
 	private DataOutputStream os;
 	private boolean isDiscoveryAble;
 	
+	private int wt;
+	//private ByteBuffer buffer;
+	
 	//private static ConnectionManager cm;
 	
 	// Public methods
@@ -62,6 +65,7 @@ public class ConnectionManager {
 		os = null;
 		changeSupport = new PropertyChangeSupport(this);
 		isDiscoveryAble= false;
+		wt=0;
 		//cm = this;
 	}
 
@@ -84,6 +88,11 @@ public class ConnectionManager {
 
 	public boolean getOnStatus() {
 		return isOn;
+	}
+	
+	
+	public void uwt(int t){
+		wt=t;
 	}
 	
 	/*public static ConnectionManager getCM(){
@@ -155,11 +164,44 @@ public class ConnectionManager {
 				}
 				
 				String userDir = System.getProperty("user.dir") + "\\tempData";
+				ByteBuffer lenBuf = ByteBuffer.allocate(4);
+				ByteBuffer dataBuf = ByteBuffer.allocate(2048);
+				lenBuf.order(ByteOrder.LITTLE_ENDIAN);
+				dataBuf.order(ByteOrder.LITTLE_ENDIAN);
+				
 				for(int i=0;i<record.getSlideCount();i++){
+					lenBuf.clear();
+					
+					String file = userDir + "\\s" + (i + 1) + ".png";
+					File nfile = new File(file);
+					int fileLen = (int)nfile.length();
+					lenBuf.putInt(fileLen);
+					os.write(lenBuf.array());
+					
+					int readLen=0;
+					byte temp[] = new byte[2048];
+					FileInputStream in = new FileInputStream(nfile);
+					while((readLen=in.read(temp))!=-1){
+						dataBuf.clear();
+						dataBuf.put(temp,0,readLen);
+						os.write(dataBuf.array(),0,readLen);
+						//System.out.println(readLen);
+						Thread.sleep(wt);
+						//sleep 50 ms should be fine
+						//delay(5);
+					}
+					os.flush();
+					
+				}
+				
+				
+				
+				/*for(int i=0;i<record.getSlideCount();i++){
 					String file = userDir + "\\s" + (i + 1) + ".png";
 					File nfile = new File(file);
 					int fileLen = (int)nfile.length();
 					ByteBuffer buffer = ByteBuffer.allocate(4+fileLen);
+					//buffer.cl
 					buffer.order(ByteOrder.LITTLE_ENDIAN);
 					buffer.putInt(fileLen);
 					//os.write(buffer.array());
@@ -171,12 +213,16 @@ public class ConnectionManager {
 						buffer.put(temp,0,readLen);
 					}
 					os.write(buffer.array());
-					os.flush();
-					Thread.sleep(600);
+					//os.flush();
+					//os.
+					//wait();
+					//Thread.sleep(60000);
+					//Thread.sleep(2000);
+					//System.out.println(os.size());
 					in.close();
 					//break;
 					
-				}
+				}*/
 				
 				
 				
@@ -185,7 +231,6 @@ public class ConnectionManager {
 				e.printStackTrace();
 				return false;
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
