@@ -7,12 +7,9 @@
 package bsp.ui;
 
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-
-import bsp.ui.animation.WindowAnimation;
 
 /**
  * 
@@ -43,11 +40,6 @@ public class MainFrame extends javax.swing.JFrame {
 		setTitle("BSmart Presentor - PC");
 		setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 		setResizable(false);
-		addWindowStateListener(new java.awt.event.WindowStateListener() {
-			public void windowStateChanged(java.awt.event.WindowEvent evt) {
-				formWindowStateChanged(evt);
-			}
-		});
 
 		mMFile.setText("File");
 
@@ -113,17 +105,6 @@ public class MainFrame extends javax.swing.JFrame {
 
 	}
 
-	private void formWindowStateChanged(java.awt.event.WindowEvent evt) {
-		// TODO add your handling code here:
-		if (this.getState() == Frame.NORMAL) {
-			WindowAnimation.windowNormal(this, 0, previousScreen.getWidth(),
-					previousScreen.getHeight());
-		} else if (this.getState() == Frame.ICONIFIED) {
-			this.previousScreen = this.getPreferredSize();
-			WindowAnimation.windowMinimize(this, 0);
-		}
-	}
-
 	/*private void formComponentRemoved(java.awt.event.ContainerEvent evt) {
 		//TODO Editing later;
 	}*/
@@ -182,7 +163,7 @@ public class MainFrame extends javax.swing.JFrame {
 	// End of variables declaration//GEN-END:variables
 
 	// Screen properties and state keepers. i.e. size etc.
-	private Dimension screen, frameSize, previousScreen;
+	private Dimension screen, frameSize;
 	private Rectangle windowSize;
 	//private javax.swing.JPanel preciousPanel;
 

@@ -84,7 +84,7 @@ public class LoadPPTX extends Loader {
 		
 		deleteAll();
 		
-		float scale = (float) 0.7;
+		float scale = (float) 0.6f;
 		String userDir = System.getProperty("user.dir") + "\\tempData";
 		for (int i = 0; i < slides.length; i++) {
 			String file = userDir + "\\s" + (i + 1) + ".png";
@@ -112,7 +112,6 @@ public class LoadPPTX extends Loader {
 
 			slides[i].draw(graphics);
 
-			// String fname = file.replaceAll("\\.ppt", "-" + (i+1) + ".png");
 			FileOutputStream out;
 			try {
 				out = new FileOutputStream(file);
@@ -121,15 +120,12 @@ public class LoadPPTX extends Loader {
 				index++;
 				proc.setProg((int) ((double) index / size * 100.0));
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		record.printRecord();
 		isPrepare = true;
 	}
 
@@ -169,8 +165,6 @@ public class LoadPPTX extends Loader {
 	}
 
 	public static void main(String[] args) {
-		// LoadPPTX ppt = new
-		// LoadPPTX("C:/Users/aaron/Documents/UWaterloo/Presentation_12.pptx");
 		LoadPPTX ppt = new LoadPPTX(
 				"C:/Users/Aaron/Documents/Presentation_Move.pptx");
 		ppt.test();

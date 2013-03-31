@@ -35,13 +35,8 @@ public class ConnectionManager {
 	private DataInputStream is;
 	private DataOutputStream os;
 	private boolean isDiscoveryAble;
+	private String lock = new String("WaitLock");
 	
-	private int wt;
-	//private ByteBuffer buffer;
-	
-	//private static ConnectionManager cm;
-	
-	// Public methods
 	public ConnectionManager() {
 		try {
 			localDev = LocalDevice.getLocalDevice();
@@ -65,8 +60,6 @@ public class ConnectionManager {
 		os = null;
 		changeSupport = new PropertyChangeSupport(this);
 		isDiscoveryAble= false;
-		wt=0;
-		//cm = this;
 	}
 
 	/**
@@ -90,15 +83,6 @@ public class ConnectionManager {
 		return isOn;
 	}
 	
-	
-	public void uwt(int t){
-		wt=t;
-	}
-	
-	/*public static ConnectionManager getCM(){
-		return cm;
-	}
-*/
 	public String getlocName() {
 		if (localDev == null)
 			return null;
@@ -147,7 +131,7 @@ public class ConnectionManager {
 			isEndByUser = true;
 			notifier.close();
 		} catch (IOException e) {
-			// System.out.println(123123123);
+			e.printStackTrace();
 		}
 
 	}	
@@ -157,15 +141,13 @@ public class ConnectionManager {
 			try {
 				os.write(Packer.getRecordHeaderPak(record));
 				
-				//os.flush();
 				for (int i = 0; i < record.getSlideCount(); i++) {
 					os.write(Packer.getSlidePak(record.getSlide(i)));
-					//os.flush();
 				}
 				
 				String userDir = System.getProperty("user.dir") + "\\tempData";
 				ByteBuffer lenBuf = ByteBuffer.allocate(4);
-				ByteBuffer dataBuf = ByteBuffer.allocate(2048);
+				ByteBuffer dataBuf = ByteBuffer.allocate(4096);
 				lenBuf.order(ByteOrder.LITTLE_ENDIAN);
 				dataBuf.order(ByteOrder.LITTLE_ENDIAN);
 				
@@ -179,53 +161,20 @@ public class ConnectionManager {
 					os.write(lenBuf.array());
 					
 					int readLen=0;
-					byte temp[] = new byte[2048];
+					byte temp[] = new byte[4096];
 					FileInputStream in = new FileInputStream(nfile);
 					while((readLen=in.read(temp))!=-1){
 						dataBuf.clear();
 						dataBuf.put(temp,0,readLen);
 						os.write(dataBuf.array(),0,readLen);
-						//System.out.println(readLen);
-						Thread.sleep(wt);
-						//sleep 50 ms should be fine
-						//delay(5);
+						synchronized(lock){
+							lock.wait();
+						}
 					}
-					os.flush();
-					
+					in.close();
 				}
 				
-				
-				
-				/*for(int i=0;i<record.getSlideCount();i++){
-					String file = userDir + "\\s" + (i + 1) + ".png";
-					File nfile = new File(file);
-					int fileLen = (int)nfile.length();
-					ByteBuffer buffer = ByteBuffer.allocate(4+fileLen);
-					//buffer.cl
-					buffer.order(ByteOrder.LITTLE_ENDIAN);
-					buffer.putInt(fileLen);
-					//os.write(buffer.array());
-					System.out.println(fileLen);
-					FileInputStream in = new FileInputStream(nfile);
-					byte temp[] = new byte[2048];
-					int readLen=0;
-					while((readLen=in.read(temp))!=-1){
-						buffer.put(temp,0,readLen);
-					}
-					os.write(buffer.array());
-					//os.flush();
-					//os.
-					//wait();
-					//Thread.sleep(60000);
-					//Thread.sleep(2000);
-					//System.out.println(os.size());
-					in.close();
-					//break;
-					
-				}*/
-				
-				
-				
+				Thread.sleep(10000);
 				return true;
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -257,7 +206,6 @@ public class ConnectionManager {
 			super();
 			URL = "btspp://localhost:" + SERVER_UUID.toString()
 					+ ";name=BSPServer" + ";authorize=false";
-			System.out.println(URL);
 		}
 
 		@Override
@@ -280,7 +228,6 @@ public class ConnectionManager {
 				StreamConnection conn = null;
 				try {
 					conn = notifier.acceptAndOpen();
-					System.out.println("Has Incoming Connection");
 				} catch (Exception e) {
 					if (!isEndByUser) {
 						System.err
@@ -310,30 +257,6 @@ public class ConnectionManager {
 						devConn = null;
 						continue;
 					}
-					sendRecord();
-					/*try {
-
-						byte[] data = new byte[6];
-						is.read(data);
-
-						// Since C/C++ packing byte[] in little_endian, so it
-						// need to convert.
-						ByteBuffer buff = ByteBuffer.wrap(data);
-						buff.order(ByteOrder.LITTLE_ENDIAN);
-
-						String pc = new String(buff.array());
-						System.out.println(pc.length());
-						if (!pc.equals(code)) {
-							System.out.println(pc.length() + "eeee");
-							devConn = null;
-							continue;
-						}
-					} catch (Exception e) {
-						System.err.println("Paring Error."
-								+ "Connection Manager - ServerThread Error");
-						devConn = null;
-						continue;
-					}*/
 
 					try {
 						isp = new ISProcThread();
@@ -343,6 +266,9 @@ public class ConnectionManager {
 						continue;
 					}
 					isp.start();
+					
+					sendRecord();
+					
 				} else
 					continue; // ignore other incoming connection once has
 								// paired.
@@ -359,14 +285,12 @@ public class ConnectionManager {
 			col = new bsp.connection.SystemController();
 			changeSupport.firePropertyChange("ISP_STATUS", new Boolean(false),
 					new Boolean(true));
-			System.out.println("Init. ISP");
 		}
 
 		private void decode(String command) {
 			int action;
 			int arg1 = 0;
 			int index = command.indexOf("-");
-			System.out.println(command);
 			action = Integer.parseInt(command.substring(0, index));
 			if (index != command.length() - 1)
 				arg1 = Integer.parseInt(command.substring(index + 1));
@@ -388,6 +312,7 @@ public class ConnectionManager {
 				String command = "";
 				try {
 					int readlen = is.read(data);
+					
 					byte[] copy = new byte[readlen];
 					System.arraycopy(data, 0, copy, 0, readlen);
 					buff = ByteBuffer.wrap(copy);
@@ -414,7 +339,12 @@ public class ConnectionManager {
 					changeSupport.firePropertyChange("ISP_STATUS", new Boolean(
 							true), new Boolean(false));
 					continue;
-				} else {
+				} else if(command.indexOf("Notify")!=-1){
+					synchronized(lock){
+						lock.notifyAll();
+					}
+				} 
+				else {
 					decode(command);
 				}
 

@@ -38,34 +38,8 @@ public final class PPT2PNG {
     public static void main(String args[]) throws Exception {
     	
     	String file = null;
-    	float scale = (float) 0.7;
-    	//int slidenum = 52;
+    	float scale = (float) 2;
     	
-        /*if (args.length == 0) {
-            usage();
-            return;
-        }
-
-        int slidenum = -1;
-        float scale = 1;
-        String file = null;
-
-        for (int i = 0; i < args.length; i++) {
-            if (args[i].startsWith("-")) {
-                if ("-scale".equals(args[i])){
-                    scale = Float.parseFloat(args[++i]);
-                } else if ("-slide".equals(args[i])) {
-                    slidenum = Integer.parseInt(args[++i]);
-                }
-            } else {
-                file = args[i];
-            }
-        }
-        if(file == null){
-            usage();
-            return;
-        }*/
-        
         file = "C:/Users/aaron/Documents/UWaterloo/temp/Presentation_1.ppt";
         
 
@@ -79,7 +53,6 @@ public final class PPT2PNG {
 
         org.apache.poi.hslf.model.Slide[] slide = ppt.getSlides();
         for (int i = 0; i < slide.length; i++) {
-            //if (slidenum != -1 && slidenum != (i+1)) continue;
 
             String title = slide[i].getTitle();
             System.out.println("Rendering slide "+slide[i].getSlideNumber() + (title == null ? "" : ": " + title));

@@ -72,7 +72,6 @@ public class LoadPDF extends Loader {
 			task.setProg((int)((double)(i+1)/size*100.0));
 		}
 		
-		record.printRecord();
 		isPrepare = true;
 		try {
 			doc.close();

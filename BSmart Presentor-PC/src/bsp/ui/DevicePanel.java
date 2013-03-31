@@ -9,13 +9,6 @@ package bsp.ui;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-/*import java.util.Vector;
-
- import bsp.connection.Bluetooth;
-
- import javax.bluetooth.RemoteDevice;
- import javax.swing.table.DefaultTableModel;*/
-
 /**
  * 
  * @author Jiannan Cai
@@ -44,11 +37,7 @@ public class DevicePanel extends javax.swing.JPanel {
 		jLabel7 = new javax.swing.JLabel();
 		jLabel8 = new javax.swing.JLabel();
 		jLabel9 = new javax.swing.JLabel();
-		jLabel10 = new javax.swing.JLabel();
-		jLabel11 = new javax.swing.JLabel();
 		jSeparator2 = new javax.swing.JSeparator();
-		jTextField1 = new javax.swing.JTextField();
-		jButton3 = new javax.swing.JButton();
 
 		setPreferredSize(new java.awt.Dimension(317, 430));
 
@@ -106,26 +95,6 @@ public class DevicePanel extends javax.swing.JPanel {
 		jLabel9.setText("Disconnected");
 		jLabel9.setOpaque(true);
 
-		jLabel10.setFont(new java.awt.Font("Segoe UI", 0, 14));
-		jLabel10.setText("Paring Code: ");
-
-		jLabel11.setBackground(new java.awt.Color(255, 255, 255));
-		jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 48));
-		jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-		jLabel11.setText(" ");
-		jLabel11.setBorder(javax.swing.BorderFactory
-				.createLineBorder(new java.awt.Color(51, 153, 255)));
-		jLabel11.setOpaque(true);
-
-		jTextField1.setText("0");
-
-		jButton3.setText("jButton3");
-		jButton3.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jButton3ActionPerformed(evt);
-			}
-		});
-
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout
@@ -136,7 +105,7 @@ public class DevicePanel extends javax.swing.JPanel {
 				.addGroup(
 						javax.swing.GroupLayout.Alignment.TRAILING,
 						layout.createSequentialGroup()
-								.addContainerGap(72, Short.MAX_VALUE)
+								.addContainerGap(37, Short.MAX_VALUE)
 								.addComponent(jButton1)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -146,7 +115,7 @@ public class DevicePanel extends javax.swing.JPanel {
 								.addContainerGap()
 								.addComponent(jLabel1,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
-										293, Short.MAX_VALUE).addContainerGap())
+										289, Short.MAX_VALUE).addContainerGap())
 				.addGroup(
 						layout.createSequentialGroup()
 								.addContainerGap()
@@ -155,7 +124,7 @@ public class DevicePanel extends javax.swing.JPanel {
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(jLabel3,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
-										164, Short.MAX_VALUE).addContainerGap())
+										159, Short.MAX_VALUE).addContainerGap())
 				.addGroup(
 						layout.createSequentialGroup()
 								.addContainerGap()
@@ -164,7 +133,7 @@ public class DevicePanel extends javax.swing.JPanel {
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(jLabel5,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
-										170, Short.MAX_VALUE).addContainerGap())
+										165, Short.MAX_VALUE).addContainerGap())
 				.addGroup(
 						layout.createSequentialGroup()
 								.addContainerGap()
@@ -175,7 +144,7 @@ public class DevicePanel extends javax.swing.JPanel {
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										56,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(159, Short.MAX_VALUE))
+								.addContainerGap(156, Short.MAX_VALUE))
 				.addGroup(
 						layout.createSequentialGroup()
 								.addContainerGap()
@@ -186,39 +155,7 @@ public class DevicePanel extends javax.swing.JPanel {
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										103,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(76, Short.MAX_VALUE))
-				.addGroup(
-						layout.createSequentialGroup()
-								.addContainerGap()
-								.addGroup(
-										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.LEADING)
-												.addComponent(jLabel10)
-												.addGroup(
-														layout.createSequentialGroup()
-																.addGap(48, 48,
-																		48)
-																.addGroup(
-																		layout.createParallelGroup(
-																				javax.swing.GroupLayout.Alignment.LEADING)
-																				.addGroup(
-																						layout.createSequentialGroup()
-																								.addComponent(
-																										jTextField1,
-																										javax.swing.GroupLayout.PREFERRED_SIZE,
-																										68,
-																										javax.swing.GroupLayout.PREFERRED_SIZE)
-																								.addGap(18,
-																										18,
-																										18)
-																								.addComponent(
-																										jButton3))
-																				.addComponent(
-																						jLabel11,
-																						javax.swing.GroupLayout.PREFERRED_SIZE,
-																						207,
-																						javax.swing.GroupLayout.PREFERRED_SIZE))))
-								.addContainerGap(50, Short.MAX_VALUE))
+								.addContainerGap(73, Short.MAX_VALUE))
 				.addComponent(jSeparator2,
 						javax.swing.GroupLayout.DEFAULT_SIZE, 317,
 						Short.MAX_VALUE));
@@ -262,27 +199,9 @@ public class DevicePanel extends javax.swing.JPanel {
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										10,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addGap(31, 31, 31)
-								.addComponent(jLabel10)
-								.addPreferredGap(
-										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(jLabel11,
-										javax.swing.GroupLayout.PREFERRED_SIZE,
-										84,
-										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-										21, Short.MAX_VALUE)
-								.addGroup(
-										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(
-														jTextField1,
-														javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addComponent(jButton3))
-								.addGap(18, 18, 18)
+										179, Short.MAX_VALUE)
 								.addComponent(jSeparator1,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										10,
@@ -297,11 +216,6 @@ public class DevicePanel extends javax.swing.JPanel {
 								.addContainerGap()));
 	}// </editor-fold>
 	//GEN-END:initComponents
-
-	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {
-		int t  = Integer.parseInt(jTextField1.getText());
-		cm.uwt(t);
-	}
 
 	public void updateRecord() {
 		cm.updateRecord();
@@ -362,17 +276,13 @@ public class DevicePanel extends javax.swing.JPanel {
 		});
 		jLabel3.setText(cm.getlocName());
 		jLabel5.setText(cm.getlocAddr());
-		jLabel11.setText(cm.getCode());
 	}
 
 	//GEN-BEGIN:variables
 	// Variables declaration - do not modify
 	private javax.swing.JButton jButton1;
 	private javax.swing.JButton jButton2;
-	private javax.swing.JButton jButton3;
 	private javax.swing.JLabel jLabel1;
-	private javax.swing.JLabel jLabel10;
-	private javax.swing.JLabel jLabel11;
 	private javax.swing.JLabel jLabel2;
 	private javax.swing.JLabel jLabel3;
 	private javax.swing.JLabel jLabel4;
@@ -383,7 +293,6 @@ public class DevicePanel extends javax.swing.JPanel {
 	private javax.swing.JLabel jLabel9;
 	private javax.swing.JSeparator jSeparator1;
 	private javax.swing.JSeparator jSeparator2;
-	private javax.swing.JTextField jTextField1;
 	// End of variables declaration//GEN-END:variables
 
 	private bsp.connection.ConnectionManager cm;
