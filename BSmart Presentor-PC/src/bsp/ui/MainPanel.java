@@ -49,7 +49,6 @@ public class MainPanel extends javax.swing.JPanel {
 		b_Open = new javax.swing.JButton();
 		jSeparator1 = new javax.swing.JSeparator();
 		b_Load = new javax.swing.JButton();
-		b_TimeFrame = new javax.swing.JButton();
 		jSeparator2 = new javax.swing.JSeparator();
 
 		propertyP.setPreferredSize(new java.awt.Dimension(315, 330));
@@ -215,13 +214,6 @@ public class MainPanel extends javax.swing.JPanel {
 			}
 		});
 
-		b_TimeFrame.setText("Time Frame");
-		b_TimeFrame.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				b_TimeFrameActionPerformed(evt);
-			}
-		});
-
 		javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
 		this.setLayout(layout);
 		layout.setHorizontalGroup(layout
@@ -234,7 +226,7 @@ public class MainPanel extends javax.swing.JPanel {
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(TF_Path,
 										javax.swing.GroupLayout.DEFAULT_SIZE,
-										185, Short.MAX_VALUE)
+										171, Short.MAX_VALUE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 								.addComponent(b_Open).addContainerGap())
@@ -246,15 +238,12 @@ public class MainPanel extends javax.swing.JPanel {
 						Short.MAX_VALUE)
 				.addGroup(
 						layout.createSequentialGroup()
-								.addGap(55, 55, 55)
+								.addGap(104, 104, 104)
 								.addComponent(b_Load,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										103,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(
-										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(b_TimeFrame)
-								.addContainerGap(55, Short.MAX_VALUE)));
+								.addContainerGap(108, Short.MAX_VALUE)));
 		layout.setVerticalGroup(layout
 				.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(
@@ -278,31 +267,20 @@ public class MainPanel extends javax.swing.JPanel {
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED,
-										320, Short.MAX_VALUE)
+										302, Short.MAX_VALUE)
 								.addComponent(jSeparator2,
 										javax.swing.GroupLayout.PREFERRED_SIZE,
 										10,
 										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addPreferredGap(
 										javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(
-										layout.createParallelGroup(
-												javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(
-														b_Load,
-														javax.swing.GroupLayout.PREFERRED_SIZE,
-														javax.swing.GroupLayout.DEFAULT_SIZE,
-														javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addComponent(b_TimeFrame))
+								.addComponent(b_Load,
+										javax.swing.GroupLayout.PREFERRED_SIZE,
+										javax.swing.GroupLayout.DEFAULT_SIZE,
+										javax.swing.GroupLayout.PREFERRED_SIZE)
 								.addContainerGap()));
 	}// </editor-fold>
 	//GEN-END:initComponents
-
-	private void b_TimeFrameActionPerformed(java.awt.event.ActionEvent evt) {
-		// TODO add your handling code here:
-		//bsp.connection.BluetoothServer bs = new bsp.connection.BluetoothServer();
-		//bs.startService();
-	}
 
 	private void b_LoadActionPerformed(java.awt.event.ActionEvent evt) {
 		String path = TF_Path.getText();
@@ -464,7 +442,6 @@ public class MainPanel extends javax.swing.JPanel {
 	private javax.swing.JTextField TF_Path;
 	private javax.swing.JButton b_Load;
 	private javax.swing.JButton b_Open;
-	private javax.swing.JButton b_TimeFrame;
 	private javax.swing.JFileChooser fileChooser;
 	private javax.swing.JSeparator jSeparator1;
 	private javax.swing.JSeparator jSeparator2;
