@@ -8,6 +8,7 @@ public class Main {
 			public void run(){
 				bsp.ui.MainFrame frame = new bsp.ui.MainFrame();
 				frame.setVisible(true);
+				System.out.println(1);
 			}
 		};
 		EventQueue.invokeLater(r);
