@@ -39,6 +39,7 @@ public class DevicePanel extends javax.swing.JPanel {
 		jLabel9 = new javax.swing.JLabel();
 		jSeparator2 = new javax.swing.JSeparator();
 
+
 		setPreferredSize(new java.awt.Dimension(317, 430));
 
 		jButton1.setText("Start Server");
